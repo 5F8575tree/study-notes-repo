@@ -164,10 +164,14 @@
 ### In-Built Integrations
 
     - There is a .git file under C:/User/mj which is why I had a huge problem with my 10,000 commits
+    - Config your git with "git config --global user.name "Your Name"" and then "git config --global user.email "name@mail.com""
+    - Initiate a repository and you can type "git status" if you want to see what is in the repository at the moment
     - You can use 'Source Code Repositories' to change the active repository
     - The folder you are working from shows up under 'Changes' and are initially 'Untracked', but if you click the + sign you can stage them (i.e. 'Add' them)
     - This is good because you now make changes to your file and it does not affect the 'Staged Changes', only the 'Changes', which you would need to again manually + to the 'Staged Changes'
     - If you want to commit the staged changes, you type 'git commit -m "Added files for <whatever reason>" from the terminal __OR__ type your message in the Source Control input field and press ctr+ enter (or press the tick icon)
+    - You can click on the ... under Source Control Repositories for multiple options, including adding a new branch
+
 
 
 
