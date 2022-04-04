@@ -172,7 +172,24 @@
     - If you want to commit the staged changes, you type 'git commit -m "Added files for <whatever reason>" from the terminal __OR__ type your message in the Source Control input field and press ctr+ enter (or press the tick icon)
     - You can click on the ... under Source Control Repositories for multiple options, including adding a new branch
 
+### Working with a Remote Repository (GitHub)
+
+    - From the command prompt you can search for Git: Clone which will then allow you to paste a clone from a url in GitHub
+    - Now when you use other options, such as push, you can push directly to the remote GitHub repository
+    - Handy Tip: When a file has an 'M' to signify modified under the Changes section, you can click that file and you will see a side-by-side view with the highlighted changes in the text editor
+
+### Git Extensions
+
+    - Git History Extension: allows you to click a particular file and view information (using the command palette) about the commit history (who, when, what, etc.)
+    - Git Blame Extension: shows who edited it last and 'blame' that person
+    - Git Project Manager allows you to use the command line to handle your git repositories. It could be useful, but it takes a little setting up with settings: it will prompt you with a warning the first time you use it to add "gitProjectManager.baseProjectFolder": ["C:/User/mj/Desktop" (for example)] and then you can open any file from there with the command line (GPM is the search in the command palette)
+
+### Git Lens Extension
+
+    - Probably makes the above extensions unnecessary
+    - It shows information 'above' the code about each line, when it was changed, and the commit message, and you can directly access the commit details, etc.
+    - By far the most powerful extension for Git
 
 
-
+## Debugging
 
