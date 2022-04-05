@@ -193,3 +193,26 @@
 
 ## Debugging
 
+### Static Sites (HTML, CSS, JS)
+
+    - Click the debug icon on the left-hand menu bar to open the debug panel
+    - You can then customize settings by creating a launch.json file in the same folder as your code
+    - Chrome and Node.js are both automatically added to the debug panel, so you can select which to use
+    - To the left of the line number in your code you can set a breakpoint
+    - You then have many options, for example inspecting a variable
+
+### Node.js
+
+    - It is handy to set a breakpoint for any time something is sent via GET or POST requests, for example
+    - If you already have your server running you may need to alter the default setting in launch.json section "request" to "attach" as well as ensure the file name is correct under "program"
+    - Crucially, you need to open your server in a debugging mode "node --inspect server.js"
+    - If you are using hot reload or nodemon you need to also add a property to the launch.json file "restart": "true"
+
+
+## VS Code Live Share
+
+### Collaborating in Real Time
+
+    - VS Live Code extension
+    - You can use the command palette to search for "VS Live Share" and start a collaboration session (you will need to sign in via GitHub)
+
