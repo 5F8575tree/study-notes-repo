@@ -56,13 +56,13 @@
     - git status gives information on the current state of your repo
     - git init creates a new repo in your current directory
 
-## What is in a git repo?
+### What is in a git repo?
 
     - Once you have initiated a repo, git will track the directory and EVERYTHING inside it (including children, grandchildren, and so on...) If you imagine a GUI folder, the git repo would include that folder, as well as everything nested within it - folders, files, and all of their contents
     - Do NOT init a repo inside of another repo!!!!
     - That's why it is important to run git status before git init
 
-### git Commit
+## git Commit
 
     - Returning to the idea of 'saving' a video game before playing on, a commit is a saving checkpoint
     - The first commit should occur after initiating the repo
@@ -76,11 +76,39 @@
 
     - Before you commit, you can run git status to see what's in your staging area
     - git commit -m "Enter your message here"
+    - Using git add . will add all changes to the staging area (so make sure they are all related to the same thing as best practise). Likewise with git add -a
 
 ### git log
 
     - Prints to terminal the history of commits including author, date/time, email, and message
-    -
+
+### Commits In Detail
+
+    - git-scm.com has the git documentation (it can be tricky to read, but there are SO many options for each git command and you will probably never use most and certainly will not remember them). The reference manual is really useful for this!
+
+### Atomic Commits
+
+    - Ideally, you want a commit to encompass a single change, feature, or fix. It should be focused on a single thing, else your project will be more difficult to maintain.
+    - Also far easier for code reviewing!
+
+### Writing Commit Messages
+
+    - The message should be written in *present-tense imperative style*
+    - It seems unnatural, but you want to write something like "Make new navbar" instead of "Made a new navbar", or "Create new file" instead of "Created a new file"
+    - You should be concise and consistent, and as specific as possible
+    - If it is just for your own project, feel free to use whatever you want ;-)
+
+### Escape VIM
+
+    - :wq
+    - If you are wanting to add a message, first press i then type your message, then esc, then :wq
+
+
+
+
+
+
+
 
 
 
