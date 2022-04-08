@@ -49,7 +49,38 @@
 
 # Git Basics: Adding & Commiting
 
-##
+## Git Repo
+
+    - Every git repo is its own little history, they are not connect to other repos
+    - You can create a new repo with: git init (without doing so, you are not really working with git, merely making files with git commands)
+    - git status gives information on the current state of your repo
+    - git init creates a new repo in your current directory
+
+## What is in a git repo?
+
+    - Once you have initiated a repo, git will track the directory and EVERYTHING inside it (including children, grandchildren, and so on...) If you imagine a GUI folder, the git repo would include that folder, as well as everything nested within it - folders, files, and all of their contents
+    - Do NOT init a repo inside of another repo!!!!
+    - That's why it is important to run git status before git init
+
+### git Commit
+
+    - Returning to the idea of 'saving' a video game before playing on, a commit is a saving checkpoint
+    - The first commit should occur after initiating the repo
+    - git commit -m "message" (this is the message that will be displayed when you commit)
+
+### Commit Workflow
+
+    1. WORK ON STUFF: Make new files, edit, delete, changes to your code, etc.
+    2. STAGE: git add . (this adds all of the files in your current directory to the staging area) - it is a way of *grouping* specific changes together in preparation for a commit **IMPORTANT: It is good practise to group changes together in your commit rather than just commiting a mass update as a checkpoint**
+    3. COMMIT: commits the changes you've made to the repo (with a message, for example, 'Converting all css to scss', 'Added branded navbar', or 'completed a URL-checking function')
+
+
+
+
+
+
+
+
 
 
 
