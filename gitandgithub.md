@@ -71,10 +71,16 @@
 ### Commit Workflow
 
     1. WORK ON STUFF: Make new files, edit, delete, changes to your code, etc.
-    2. STAGE: git add . (this adds all of the files in your current directory to the staging area) - it is a way of *grouping* specific changes together in preparation for a commit **IMPORTANT: It is good practise to group changes together in your commit rather than just commiting a mass update as a checkpoint**
+    2. STAGE: git add <fileName1> <fileName2> etc. (this adds all of the files in your current directory to the staging area) - it is a way of *grouping* specific changes together in preparation for a commit **IMPORTANT: It is good practise to group changes together in your commit rather than just commiting a mass update as a checkpoint**
     3. COMMIT: commits the changes you've made to the repo (with a message, for example, 'Converting all css to scss', 'Added branded navbar', or 'completed a URL-checking function')
 
+    - Before you commit, you can run git status to see what's in your staging area
+    - git commit -m "Enter your message here"
 
+### git log
+
+    - Prints to terminal the history of commits including author, date/time, email, and message
+    -
 
 
 
