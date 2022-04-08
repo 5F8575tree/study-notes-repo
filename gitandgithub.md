@@ -26,10 +26,33 @@
     - git --version
     - git config user.name (not setting a user name, but checking)
     - If you do want to subsequently change your email (or name) with: git config --global user.email "new@email.address"
-    - After typing git, you can use the up/down arrows to cycle through previous commands
+    - You can use the up/down arrows to cycle through previous commands
+    - ls (lists contents of current directory)
+    - start . (opens up the current directory in the GUI)
+    - ls FolderName (lists contents of a specific FolderName) (FolderName/innerFolder)
+    - clear (clears the terminal)
+    - pwd (prints the current working directory)
+    - cd FolderName (changes the current working directory to FolderName)
+    - cd .. (changes the current working directory to the parent directory)
+    - touch FileName.[ext] (creates a new file called FileName.[ext] in your current directory(unless you write the path from the current directory)) *You can make multiple files are once
+    - rm FileName (deletes the file called FileName) *WARNING: This will delete the file permanently
+    - mkdir FolderName (creates a new directory called FolderName in your current directory)
+    - rmdir FolderName (deletes the directory called FolderName)
+    - rm -rf FolderName (deletes the directory called FolderName and all of its contents)
+    - mv FileName FolderName (moves the file called FileName to the directory called FolderName)
+    - *As you can see, folders and filenames are best with just one word*
+    - ls -a (lists all files and folders in the current directory (including hidden/.git files))
+    - ls -l (lists all files and folders in the current directory with their sizes)
+    - ls -al (lists all files and folders in the current directory with their sizes and their permissions (including hidden/.git files))
     -
 
 
-### GitKracken GUI
+# Git Basics: Adding & Commiting
+
+##
+
+
+
+
 
 
