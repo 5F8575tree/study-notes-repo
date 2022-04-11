@@ -127,6 +127,18 @@
     - git commit --amend
     - Amend will then open up the git commit 'file' in VSCode and you can then edit the commit message
 
+### .gitignore File
+
+    - There are various things that you will want to add to your gitignore file, for example node_modules/ or .env files
+    - You can even ignore anything that ends in a certain way by using an asterisk, e.g. *.[ext]
+    - You can also ignore a specific file by using a full path, e.g. /path/to/file/to/ignore
+
+## Branches
+
+
+
+
+
 
 
 
