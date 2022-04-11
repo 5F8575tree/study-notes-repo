@@ -103,6 +103,18 @@
     - :wq
     - If you are wanting to add a message, first press i then type your message, then esc, then :wq
 
+### Configuring VS Code as the Default Editor
+
+    - git config --global core.editor "code --wait"
+    - This will make git use VS Code as the default editor for commits
+
+### Git Log Longer Messages
+
+### Committing with GitKracken
+
+    -
+
+
 
 
 
