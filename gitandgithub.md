@@ -75,12 +75,14 @@
     3. COMMIT: commits the changes you've made to the repo (with a message, for example, 'Converting all css to scss', 'Added branded navbar', or 'completed a URL-checking function')
 
     - Before you commit, you can run git status to see what's in your staging area
+    - git commit (on it's own will open a commit 'file' in VSCode that you can fill out)
     - git commit -m "Enter your message here"
     - Using git add . will add all changes to the staging area (so make sure they are all related to the same thing as best practise). Likewise with git add -a
 
 ### git log
 
     - Prints to terminal the history of commits including author, date/time, email, and message
+    - q will exit the git log
 
 ### Commits In Detail
 
@@ -108,11 +110,23 @@
     - git config --global core.editor "code --wait"
     - This will make git use VS Code as the default editor for commits
 
-### Git Log Longer Messages
+### Git Log Shorten Logs
+
+    - git log --oneline
+    - This makes the log view much shorter so that you can more easily reference the logs
 
 ### Committing with GitKracken
 
-    -
+    - Open (new) repository > make changes to your project > on the right-hand side you can see the changes > click the stage button next to the changes > click the commit button > enter a message > click the commit button > gitkraken will open up and show you the changes you've made
+    - GitKracken is like a cool-looking version of the VSCode extension for git, my preference is probably with VSCode as it is a balance between the terminal and GitKracken GUI
+
+### Amend Commits
+
+    - If you realise that, for example, you put a typo in your commit message, or grouped the wrong file into the commit, etc., you can use amend **But it only works on the last commit made**
+    - git add <forgotten-file-name-if-applicable>
+    - git commit --amend
+    - Amend will then open up the git commit 'file' in VSCode and you can then edit the commit message
+
 
 
 
