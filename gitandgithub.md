@@ -75,7 +75,7 @@
     3. COMMIT: commits the changes you've made to the repo (with a message, for example, 'Converting all css to scss', 'Added branded navbar', or 'completed a URL-checking function')
 
     - Before you commit, you can run git status to see what's in your staging area
-    - git commit (on it's own will open a commit 'file' in VSCode that you can fill out)
+    - git commit (on it's own will open a commit 'file' that you can fill out in VSCode)
     - git commit -m "Enter your message here"
     - Using git add . will add all changes to the staging area (so make sure they are all related to the same thing as best practise). Likewise with git add -a
 
