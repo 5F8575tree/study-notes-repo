@@ -135,6 +135,44 @@
 
 ## Branches
 
+### What are Branches?
+
+    - Each commit has a hash reference, and also references at least one parent hash reference (with the exception of the initial commit)
+    - In real-life, you may be working with other developers doing other things to the code, and you may be trying separate things in your code (a new color scheme, plus fixing a bug somewhere). If all commits were lineal, you would keep breaking your code and making work impossible
+    - Think of branches as creating separate versions of your code, and you can then merge them back together
+    - Branches exist in isolation, so you can only break that specific branch
+    - So, with the example above, you would create one branch for the new color scheme, and another branch for the bug fix task. Later on, you may then try a completely new branch for a design overhall as an experiment, which may be branched from your bug fix branch [in total, we now have 4 contexts: main/original, color scheme, bug fix > experimental design]
+
+### The Master Branch
+
+    - Simply the original branch. Nothing special beyond that, but you can use it as the 'official' definitely working, definitely keeping, branch
+    - HEAD is a reference to a branch that is currently open
+    - git branch (without any arguments) will list all branches (the branch with the asterisk is the current branch)
+
+### Create a Branch
+
+    - git branch <branchName>
+    - A branch name shouldn't include any spaces and should be very concise, yet informative (e.g. 'new-color-scheme')
+    - Creating a branch does NOT automatically switch you to that branch
+    - git switch <branchName>
+    - git switch -c <branchName> (this will create a branch AND switch you to it)
+    - If you attempt to switch to a different branch without committing or stashing your changes, you will be forced to do so (unless the changes you have made do not conflict with any other branch, in which case the changes will come with you to the new branch! This is mainly the case with adding a new file or new code, since this won't 'conflict' with any other branch)
+
+### git checkout for Switching Branches?
+
+    - git checkout <branchName>
+    - It switches branch, but it does a LOT more than git switch
+
+### Deleting & Renaming Branches
+
+    - git branch -d <branchName> (this will delete the branch)
+    - git branch -m <branchName> <newBranchName> (this will rename the branch)
+    -
+
+
+
+
+
 
 
 
