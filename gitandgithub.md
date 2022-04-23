@@ -20,7 +20,6 @@
     - The command-line is often faster, but the user interface is awful and the learning curve is steep
     - You MUST know the command-line method, but GUI is nice for many projects
 
-
 # Shortcut Keys!
 
     - git --version
@@ -45,7 +44,6 @@
     - ls -l (lists all files and folders in the current directory with their sizes)
     - ls -al (lists all files and folders in the current directory with their sizes and their permissions (including hidden/.git files))
     -
-
 
 # Git Basics: Adding & Commiting
 
@@ -168,32 +166,3 @@
     - git branch -d <branchName> (this will delete the branch)
     - git branch -m <branchName> <newBranchName> (this will rename the branch)
     -
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
