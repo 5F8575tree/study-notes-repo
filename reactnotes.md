@@ -268,3 +268,86 @@ However, when it comes to arrays you would more likely store your array in a var
 **NOTE** We added a 'key' argument, since React prefers it this way! This is a unique identifier for each element. If you do not add a key, React will not know which element to update when a state changes.
 
 ## JSX
+
+JSX is a syntax extension to JavaScript. It is a way to write HTML in JavaScript, which allows for more readable code. The major example is the ability to use <> angle brackets inside JS, for example <div>Hello World</div>.
+
+We can also use JavaScript in conjunction with JSX. For example, we can use JavaScript to create a component:
+
+    const MyPeople = <ol>
+        {people.map((person) =>
+            <li key={person.name}>
+                {person.name}
+            </li>
+        )}
+    </ol>
+
+**NOTE** Even though we are using a nice, concise, JSX syntax beginning with ol and ending in /ol, we are still using JavaScript with the createElement() method. This is because the DOM will compile JSX into JavaScript.
+
+**NOTE 2** You can create _one_ element, no more. Everything else can be nested within it, but you cannot have two 'head-level' elements. For example, this will not work as h1 and ul are both at the head level and therefore this code is attempting to create two elements:
+
+    const message = (
+    <h1>All About JSX:</h1>
+    <ul>
+        <li>JSX</li>
+        <li>is</li>
+        <li>awesome!</li>
+    </ul>
+    );
+
+## Components in JSX
+
+This is a key feature in React. This is where we bundle together our other JSX elements and make them reusable. When using an arrow function there is no need to _explicitly_ return the element, but with a traditionally-written function we need to include return.
+
+Why is the component feature useful? Well, by combining all the seperate elements we can render and treat them as if they are one single element. Here's an example:
+
+    const ContactList = () => {
+        const people = [{ name:'John' }, { name:'Jane' }, { name:'Jack' }];
+
+        return (
+            <ol>
+                {people.map((person) =>
+                    <li key={person.name}>
+                        {person.name}
+                    </li>
+                )}
+            </ol>
+        )
+    };
+
+ReactDOM.render(<ContactList />, document.getElementById('root'));
+
+### Traditional v Arrow Function Syntax
+
+    const arrowFunction () => {}
+
+    function traditionalFunction () {}
+
+### The 'this' Keyword
+
+The 'this' keyword is a special keyword that is used to refer to the current object. In the example, the 'this' keyword refers to the ContactList component:
+
+    const ContactList = () => {
+        const people = [{ name:'John' }, { name:'Jane' }, { name:'Jack' }];
+
+        return (
+            <ol>
+                {people.map((person) =>
+                    <li key={person.name}>
+                        {this.props.name}
+                    </li>
+                )}
+            </ol>
+        )
+    };
+
+## create-react-app
+
+In order to run JSX we need to use a compiler that will break the code down into JS to be run in the browser. Webpack is the tool I most often use for compiling web projects, and is also the most common in React, but FaceBook have created the create-react-app in order to do the same job for simplicity. The create-react-app is powered by react-scripts, and includes Babel, Webpack, Webpack-dev-server, and other tools.
+
+To set up a project, just type npm create-react-app <project-name> in the terminal.
+
+To read details on how to get React v18 working, check out the [React v18 docs](https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html).
+
+## Composition
+
+# State Management
