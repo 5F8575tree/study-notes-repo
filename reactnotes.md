@@ -9,6 +9,26 @@ React is a frontend library for building user interfaces. It is used for buildin
 - **React**, which is used to build the front end
 - **Node**, which is the runtime environment for the application
 
+## Table of Contents
+
+- [REACT](#react)
+  - [MERN Stack](#mern-stack)
+- [Why Use React?](#why-use-react)
+  - [Composition](#composition)
+  - [Declarative Code](#declarative-code)
+  - [Unidirectional Data Flow](#unidirectional-data-flow)
+  - [React is Just JavaScript](#react-is-just-javascript)
+  - [ES6 Syntax](#es6-syntax)
+  - [Functional Programming](#functional-programming)
+    - [Array map() Method](#array-map-method)
+    - [Array filter() Method](#array-filter-method)
+    - [Using filter() with map()](#using-filter-with-map)
+  - [The Virtual DOM](#the-virtual-dom)
+- [Rendering UI with React](#rendering-ui-with-react)
+  - [Creating UI Elements](#creating-ui-elements)
+
+# Why Use React?
+
 ## Composition
 
 We are used to using functions, and then using a single function that is composed of the other functions to return a value. In react, it works in the same way, but instead of writing functions to return some values, we compose the functions to **return UI elements.**
@@ -26,4 +46,142 @@ This ensures that the page component actually contains the article and sidebar c
 
 ## Declarative Code
 
-Another key factor in React. Much of JavaScript is imperative code. To use a metaphor: if you are driving your car and want to keep the temperature at 70 degrees, you have to manage windows, the aircon, and air flow. You can achieve 70 degrees throughout your drive, but you need to keep adjusting the three different imperatives. With React, you use **declarative** code to say 'I want the temperature to remain at 70 degrees', and it handles all of the other determinants for you.
+Another key factor in React. Much of JavaScript is imperative code. To use a metaphor: if you are driving your car and want to keep the temperature at 70 degrees, you have to manage windows, the aircon, and air flow. You can achieve 70 degrees throughout your drive, but you need to keep adjusting the three different imperatives - you are telling it exactly what to do at each step.
+
+With React, you use **declarative** code to say 'I want the temperature to remain at 70 degrees', and it handles all of the other determinants for you.
+
+A code example would be the use of event listeners in JavaScript, and the use of the `onClick` attribute in React. 'onClick' can be simply written and assigned a function (e.g. 'handleSubmit').
+
+## Unidirectional Data Flow
+
+Angular (and Vue.js) uses two-way data bindings, which means that whether the data is updated by the model or the view, it updates the other. This can be great, but it also means that it can be hard to discern what is happening in the application.
+
+With React, the data 'lives' in the parent component, and can be used by child components. If the child component requires an update, it sends this update to the parent component where the update is actually performed.
+
+In the following code, for example, only the <FlightPlanner> component should be updated.
+
+    <FlightPlanner>
+        <DatePicker />
+        <DestinationPicker />
+    </FlightPlanner>
+
+If a particular component is the child of two components, both parents can update the child. Thus, in the following example, both <FlightPlanner> and <LocationPicker> are responsible for updating the data in the other elements (while only <FlightPlanner> is responsible for the <DatePicker /> child).
+
+    <FlightPlanner>
+
+        <LocationPicker>
+            <OriginPicker />
+            <DestinationPicker />
+        </LocationPicker>
+
+    <DatePicker />
+
+    </FlightPlanner>
+
+In short, data flows in only one direction, from parent to child. If data is shared between sibling child components, then the data should be stored in the parent component and passed to both of the child components that need it.
+
+## React is Just JavaScript
+
+React uses JavaScript syntax where it is easier to do so. For example, to loop through an array, you can just use .map() method that is built in to JS.
+
+    const items = [1, 2, 3, 4, 5];
+    const mappedItems = items.map(item => item * 2);
+
+    console.log(mappedItems);
+
+    // [2, 4, 6, 8, 10]
+
+## ES6 Syntax
+
+ES6 syntax is the new standard for JavaScript. It is a superset of JavaScript, and is used in React. Thus, you can use aroow functions, let/const variables, spread syntaxt (...), using functions as variables(e.g. const myFunctionVar = myFunction() ), and other ES6 features.
+
+## Functional Programming
+
+One of the greatest benefits of React is the ability to use **functional programming**. Functional programming is a programming paradigm that treats functions as first-class objects. This means that functions can be passed around, and can be returned from other functions. They can be stored in variables, and can be passed as arguments to other functions. They can also allow array methods such as map, filter, and reduce to be used on functions.
+
+### Array map() Method
+
+JavaScript's map() method calls on an existing array and returns a new array based on what is returned from the function that's passed as an argument. **The method creates a new array, and does NOT modify the original array.**
+
+Let's say we have an array named 'names', and we want to find the length of each name and store them in a new array:
+
+    const nameLengths = names.map((name) => name.length);
+
+This code will return an array of the lengths of each name in the 'names' array. The following code will loop over an album data array and return an array of strings that each say '<albumName> by <artistName> sold <albumSales> copies': -
+
+        const musicData = [
+        { artist: 'Adele', name: '25', sales: 1731000 },
+        { artist: 'Drake', name: 'Views', sales: 1608000 },
+        { artist: 'Beyonce', name: 'Lemonade', sales: 1554000 },
+        { artist: 'Chris Stapleton', name: 'Traveller', sales: 1085000 },
+        { artist: 'Pentatonix', name: 'A Pentatonix Christmas', sales: 904000 },
+        { artist: 'Original Broadway Cast Recording',
+        name: 'Hamilton: An American Musical', sales: 820000 },
+        { artist: 'Twenty One Pilots', name: 'Blurryface', sales: 738000 },
+        { artist: 'Prince', name: 'The Very Best of Prince', sales: 668000 },
+        { artist: 'Rihanna', name: 'Anti', sales: 603000 },
+        { artist: 'Justin Bieber', name: 'Purpose', sales: 554000 }
+    ];
+
+    const albumSalesString = musicData.map(album =>`${album.name} by ${album.artist} sold ${album.sales} copies`);
+
+    console.log(albumSalesString);
+
+    // [
+    //     '25 by Adele sold 1731000 copies',
+    //     'Views by Drake sold 1608000 copies',
+    //     'Lemonade by Beyonce sold 1554000 copies',
+    //     etc. etc.
+    // ]
+
+### Array filter() Method
+
+As with the map() method, this method takes an array, with the function passed as an argument, and returns a new array. The difference is that this method filters out items from the original array based on a condition.
+
+    const shortNames = names.filter((name) => name.length < 6);
+
+To use our musicData example:
+
+    const results = musicData.filter(album => album.name.length >= 10 && album.name.length <= 25);
+
+    console.log(results);
+
+This will return 3 objects from the musicData array with an album name between 10 and 25 characters long.
+
+### Using filter() with map()
+
+We can combine the two methods to create an array that passes through the filter() and then returns a new array of that filtered data.
+
+    const results = musicData
+                    .filter(album => album.name.length >= 10 && album.name.length <= 25)
+                    .map(album => `${album.name} by ${album.artist} sold ${album.sales} copies`);
+
+    console.log(results);
+
+**Note:** Running filter first is faster, since both loop through the entire array their are provided with, and so the filtered array will be less work that the mapped array.
+
+Here is an example with the number of album sales over 1,000,000:
+
+    const results = musicData
+                    .filter((album) => album.sales >= 1000000)
+                    .map((album) => `${album.artist} is a successful artist.`);
+
+    console.log(results);
+
+This returns four artists.
+
+**Note:** On some of the above example I have not entered a 'named' function, i.e. ((argument) => {return something}). This is because the filter() method is a built in method, and so the callback function is entirely required.
+
+What does this mean? **Well, you can replace 'for' loops with map(), and 'if' statements with filter().**
+
+## The Virtual DOM
+
+React maintains an internal representation of the rendered UI. This means it can check and see if a particular DOM node is necessary and, if not, it will not create it until it is necessary. When a componenet's state changes, React checks to see if this component's UI needs to be updated. If it does, it will update the UI. If not, it will not.
+
+In other words, since the DOM is a tree, and making a change to an element can require the entire tree to be rebuild (which is slow), React does just that which is necessary to render exactly what you want with the minimum amount of loading time.
+
+This [article]<https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-works-in-react-6fc805f9f84e> is a good explanation of what React does vis-a-vis the DOM.
+
+# Rendering UI with React
+
+## Creating UI Elements
