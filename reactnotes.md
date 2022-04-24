@@ -13,6 +13,7 @@ React is a frontend library for building user interfaces. It is used for buildin
 
 - [REACT](#react)
   - [MERN Stack](#mern-stack)
+  - [Table of Contents](#table-of-contents)
 - [Why Use React?](#why-use-react)
   - [Composition](#composition)
   - [Declarative Code](#declarative-code)
@@ -26,6 +27,9 @@ React is a frontend library for building user interfaces. It is used for buildin
   - [The Virtual DOM](#the-virtual-dom)
 - [Rendering UI with React](#rendering-ui-with-react)
   - [Creating UI Elements](#creating-ui-elements)
+    - [Props](#props)
+    - [Nesting with the Third Element](#nesting-with-the-third-element)
+  - [JSX](#jsx)
 
 # Why Use React?
 
@@ -185,3 +189,82 @@ This [article]<https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-work
 # Rendering UI with React
 
 ## Creating UI Elements
+
+Rather than a string template, React uses JavaScript objects to create the UI. We use these objects to display the look of our page, and React will take care of generating the DOM nodes required.
+
+We can create our own components, and simply pass them data. This data will be used to generate the UI.
+
+    React.createElement( /* type */, /* props */, /* content */ );
+
+The React.createElement() is a top-level function that takes three arguments:
+
+    1. The type of element to create (i.e. tag name <div>, <img>, etc. OR a component that we have created)
+    2. The props to pass to the element (i.e. className, src, etc. OR null)
+    3. The content to pass to the element (e.g. a line of text 'Hello World', or a child element. This is very broad as to what you can enter: string, number, array, object, null, plain text, JavaScript code, another React element, etc.)
+
+We then use reactDOM.render() to render the element to the DOM on the page. For example:
+
+    reactDOM.render(
+        myElement,
+        document.getElementById('root')
+    )
+
+**NOTE:** The 'myElement' variable is the element we created and consists of a JavaScript object.
+
+**NOTE 2** The 'root' is the ID of the element in the HTML file that we want to render the element to. So, this 'hook' would be the sole element in the HTML file that we want to render our component to.
+
+    <div id="root"></div>
+
+    // In the HTML file
+
+Since we have passed this element to reactDOM.render(), React will now generate the DOM nodes required to display the element.
+
+### Props
+
+In the second argument we pass to createElement(), we can pass in properties. If we wanted an element to have a class, for example, we can simple use:
+
+    React.createElement(
+        'div',
+        { className: 'my-class' },
+        'Hello World'
+    );
+
+**NOTE** You cannot simply type 'class', since this is not something that the DOM can use. You must use 'className'. In other words, when you are creating the elements, remember that you are creating DOM nodes, not html strings. This could initially be problematic for you, as 'for' is not accepted by React as it is a reserved JavaScript keyword. Instead, you would need htmlFor.
+
+### Nesting with the Third Element
+
+We can nest html elements easily within our first element by nesting it within the createElement() function:
+
+    React.createElement(
+        'div',
+        { className: 'my-class' },
+        React.createElement(
+            'h1',
+            null,
+            'Hello World'
+        )
+    );
+
+Another example would be an ordered list element:
+
+    React.createElement(
+        'ol',
+        className: 'my-names-class',
+        React.createElement('li', null, 'John'),
+        React.createElement('li', null, 'Jane'),
+        React.createElement('li', null, 'Jack')
+    );
+
+However, when it comes to arrays you would more likely store your array in a variable and pass it to the createElement() function:
+
+    const people = ['John', 'Jane', 'Jack'];
+
+    React.createElement(
+        'ol',
+        className: 'my-people',
+        people.map((person) => React.createElement('li', { key: person.name }, person.name))
+    );
+
+**NOTE** We added a 'key' argument, since React prefers it this way! This is a unique identifier for each element. If you do not add a key, React will not know which element to update when a state changes.
+
+## JSX
