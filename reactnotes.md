@@ -208,7 +208,7 @@ React maintains an internal representation of the rendered UI. This means it can
 
 In other words, since the DOM is a tree, and making a change to an element can require the entire tree to be rebuild (which is slow), React does just that which is necessary to render exactly what you want with the minimum amount of loading time.
 
-This [article]<https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-works-in-react-6fc805f9f84e> is a good explanation of what React does vis-a-vis the DOM.
+This [article](https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-works-in-react-6fc805f9f84e) is a good explanation of what React does vis-a-vis the DOM.
 
 # Rendering UI with React
 
