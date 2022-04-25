@@ -626,3 +626,132 @@ If our 'backend' database is set up correctly it should have a remove/delete met
 Now we have persistence in our change! And it occurs both on the frontend UI and in the backend database.
 
 ## Side Effect Cleanup
+
+Cleanups can prevent memory leaks in our app by cancelling an asynchronous API call if the component is unmounted (i.e. not set in the DOM). Usually this is not an entirely necessary step, React themselves note that 'network requests' fall under a category not requiring cleanup. However, it is _good practise_ to do so.
+
+A truly simple way to do this is simply to provide a return call on your useEffects method:
+
+    useEffect(() => {
+        const getContacts = async () => {
+            const res = await ContactsAPI.getAll();
+            setContacts(res);
+        };
+        getContacts();
+        return () => {
+            // cleanup
+        };
+    }, []);
+
+Removing an event listener is also a good way to perform cleanup:
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    });
+
+Another good idea is to create a variable that tracks whether or not a component is mounted and, if it is, runs the side effect/custom logic, and updates the UI. But if the component is not mounted, we can cancel the side effect by returning false:
+
+    useEffect(() => {
+
+        let mounted = true;
+
+        if (user.exists) {
+        if (mounted) {
+            setCurrentUser(user);
+        }
+
+        // ...
+        }
+
+        return () => {
+        mounted = false;
+    };
+
+}, []);
+
+## Additional Hooks
+
+    useReducer()
+    useCallback()
+    useMemo()
+    useRef()
+    useImperativeHandle()
+    useContext()
+    useDebugValue()
+    useLayoutEffect()
+
+It is worth reviewing the [Hooks Reference](https://reactjs.org/docs/hooks-reference.html#usecontext) for additional hooks and their information.
+
+# Routing
+
+## Single Page Applications
+
+Although it sounds like it must be an application with just one page, a SPA is actually a web application that only requires the browser to make one call to the server to render the page and send it back to the user on their CPU. So, rather than receiving a home.html page, then clicking an 'about' page button that requires the browser to fetch about.html from the server, simply arriving once at the page is enough for all the inner pages to run.
+
+In short, the SPA downloads the entire site contents at once. This improves performance, since when the user navigates to a new page, it is only an asynchronous JS request for _just_ the newly required content.
+
+Of course, we also want the URL to be updated when a user navigates (for one thing, it is better for sharing links or bookmarking). This is one reason for using an SPA with a router.
+
+## React Router
+
+React Router will turn our app into a SPA. It 'is a collection of navigational components that compose declaratively with your application'. Basically it provides numerous specialized components that allow you to manage the navigation of your app (creation of links, managing URL changes, provides transitions, etc).
+
+## Dynamically Rendering Pages
+
+Taking the contacts app example, we would like to also be able to add contacts to the app. Since this is an entirely new component, we need to create it in a separate file (within the components directory). Next, we will need to set up a simple component for the time-being:
+
+    const CreateContact = () => {
+        return (
+            <div className="create-contact">Create Contact</div>
+        );
+    };
+
+    export default CreateContact;
+
+Then we will import it into our app component:
+
+    import CreateContact from './components/CreateContact';
+
+And render it within our return call simply as: <CreateContact />. However, it would be better to render it conditionally, so that it only appears when the user clicks the 'create contact' button, for example.
+
+First, we can add the state that will render CreateContact:
+
+    const [screen, setScreen] = useState('list');
+
+And then in the rendering logic return statement we can add a JS conditional statement, such as:
+
+    return (
+        <div>
+        {
+            screen === "list" && (<ListContacts contacts={contacts} onDeleteContact={removeContact} onNavigate={() = > {
+                setScreen('create');
+            }} />)
+        }
+        {
+            screen === "create" && <CreateContact />
+        }
+        </div>
+    );
+    };
+
+**NOTE** The && operator looks a bit funky as we are mixing JS and JSX. However, it is a valid technique known as 'valid AND expression', whereby the first statement is evaluated and if true, the second expression if run. Of course, if the first expression is false then the second expression (i.e. the part after the &&) is skipped.
+
+We will also need a button to be able to switch between these two states. We can do this in our ListContacts component by adding it to the return statement with an anchor tag:
+
+    return (
+        ...
+        <a href='#create' onClick={ onNavigate } className='add-contact'>
+            Add Contact
+        </a>
+        ...
+    );
+
+**NOTE** This is essentially a _very_ basic 'vanilla' mock-up of how React Router works, rendering two different screens/pages depending on the state.
+
+## Install React Router
+
+After all of that manual coding, why use React Router? Well, for one thing, if we press the back button in the browser it does not return us to the previously screen, which is certainly expected behaviour for any user. React Router does this for us.
+
+    npm install react-router-dom
