@@ -458,3 +458,105 @@ Finally, (in the case of a delete button), you need to pass the removeContact me
 **NOTE** At this point, we haven't added any persistence to a database, and so even if we delete contacts successfully so far, a quick reload of the page will bring them back.
 
 ## PropTypes
+
+A package that allows us to define the data type we want to see in our component (method, object, array, etc.). This is useful for debugging purposes, as it will help us to know what data we are expecting to be passed in, and will warn us if it sees something different. It requires installation:
+
+    npm install prop-types
+
+You then also need to import prop-types into the required component file.
+
+    import PropTypes from 'prop-types';
+
+Now we can add a property to our component. Outside of your component, just before the export statement, add the prop-types:
+
+    MyComponent.propTypes = {
+        name: PropTypes.string.isRequired,
+        age: PropTypes.number.isRequired,
+        onDeleteContact: PropTypes.func.isRequired
+    };
+
+You could also use a more precise requirement, for example:
+
+    name: PropTypes.arrayOf(PropTypes.string).isRequired
+
+This will require the array to be a list of strings.
+
+PropTypes are probably most useful in warning us in the console if we are missing a prop, in which case it will give us a warning that something is coming back undefined.
+
+## Controlled Components
+
+One issue that could be confusing is the status of forms, since they typically live in the DOM, yet we want to control it's state with React. This is where controlled components come in. Controlled components render a form, but the form does _not_ live within the DOM, but instead the source of truth for the form is in the component.
+
+There are some great advantages to using controlled components for forms:
+
+    1. We can immediately validate the input
+    2. They allow you to conditionally enable or disable form buttons
+    3. They enforce input formats
+
+These are all aspects of updating the UI - the meat of React. So, rather than using a pop-up alert to notify us of an error, we can use a controlled component to render a form with an error message.
+
+Returning to the idea of a contacts app, if we had thousands of contacts, we could use a controlled component as a search form. Essentially, as you type into the search box, you are allowing React to update the stateof the component, and therefore the rendered UI.
+
+In the component that we want to apply the search form to (e.g. the list of contacts), create a new base div, and within it place your contacts div. Then place the search form within the base div. **NOTE** Don't forget to import { useState } again:
+
+    import { useState } from 'react';
+
+As before, we will need to create a variable within the component to refer to the state:
+
+    const [query, setQuery] = useState('');
+
+Next, you will need to have the value of the input field be the query of the state. To do this, you will first need to create a function that will update the state:
+
+     const updateQuery = (query) => {
+        setQuery(query.trim());
+    };
+
+Then finally we can return to our form input div:
+
+    <input
+        type="text"
+        className="search-box"
+        placeholder="Search..."
+        value={query}
+        onChange={(evt) => updateQuery(evt.target.value)}
+    />
+
+With all this done, however, you will not actually notice any change in terms of the rendering of the UI (other than the appearance of the search form). This is because the query is not being updated in the state, and therefore the UI is not re-rendered.
+
+One more variable will be required within your component to re-render the UI:
+
+    const showContacts =
+        (query) === ''
+            ? contacts
+            : contacts.filter((c) =>
+            c.name.toLowerCase().includes(query.toLowerCase())
+        );
+
+What the above code does is take the query as input and, if it is equal to an empty string (i.e. nothing has been entered) we will render our original contacts list.
+
+Then we use '?' to check if the query is _not_ equal to an empty string, in which case we apply ':' to our contacts list, filter it down by name (c.name) and make sure the query is included in a name, making sure to match them both in lowercase so as to avoid 'Richard' not equalling 'richard'.
+
+In short, if the query is empty, show all contacts, otherwise filter the contacts array by the query.
+
+To top it off, rather than mapping over the entire contacts list in our component, we will just map over the showContacts list.
+
+A nice touch would be to add a counter to show how many contacts out of the total you are showing currently, and also allow the user to return to a state of 'view all'. To do this, we can sandwich some JavaScript between the search form div and the contacts div:
+
+    {
+        showContacts.length !== contacts.length && (
+            <div className="counter">
+                <span>
+                    Showing {showContacts.length} of {contacts.length}
+                </span>
+                <button onClick={clearQuery}>
+                    Show all
+                </button>
+            </div>
+        ))
+    }
+
+Then ensure you have built a simple function towards the top of the component that will return the query to an empty string:
+
+    const clearQuery = () => {
+        setQuery('');
+    };
