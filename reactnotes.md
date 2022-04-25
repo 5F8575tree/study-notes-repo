@@ -423,3 +423,38 @@ useState takes in a single argument, which is the initial state. This is the sta
     ]);
 
 **NOTE** When defining a component's initial state, avoid using props. This is because props are immutable, and therefore cannot be changed (e.g. NOT THIS > const [user, setUser] = useState(props.user); as you will not be able to alter the user when the state changes).
+
+## How to Change State
+
+First, we need to insert a method in our component that will be responsible for, say, deleting a contact from our array.
+
+    const removeContact = (contact) => {
+        setContacts(contacts.filter((c) => c.id !== contact.id));
+
+**NOTE** In the above code 'c' is used to refer to contacts. Thus, the id of 'c' does not equal the contact id that was passed in. Remember, filter() returns a new array, which now _does not_ contain the contact that was passed in.
+
+Calling the setContacts method will not delete. In fact, it basically re-renders the UI based on the state, i.e. a contact having been deleted and therefore no longer existing in the array - which is a 'new' array.
+
+Next, we need to pass this new removeContact component into our component responsible for rendering the UI. For example:
+
+    return (
+        <div>
+            <h1>Contacts</h1>
+            <ContactForm onSubmit={addContact} />
+            <ContactList contacts={contacts} onDeleteContact={removeContact} />
+        </div>
+    );
+
+You also need to ensure that the child component's are set up correctly. For example, if you have a component which renders a list of contacts upon being called by your root component, you need to alter the props to include onDeleteContact:
+
+    const ListContacts = ({ contacts, onDeleteContacts }) => {
+        ...
+    };
+
+Finally, (in the case of a delete button), you need to pass the removeContact method into the button component and have it run onClick:
+
+    <button className="remove-contact" onClick={() => removeContact(contact)}>Delete</button>
+
+**NOTE** At this point, we haven't added any persistence to a database, and so even if we delete contacts successfully so far, a quick reload of the page will bring them back.
+
+## PropTypes
