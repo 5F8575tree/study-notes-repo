@@ -351,3 +351,75 @@ To read details on how to get React v18 working, check out the [React v18 docs](
 ## Composition
 
 # State Management
+
+## Props
+
+In JavaScript, we pass data with arguments in functions. With React, we can pass data with props. For example, if we have a function that contains an array of usernames, but we want to make a fetchUser function that can be passed the username as an argument and just fetch that user's data. Here is what you would do to pass an argument to a function:
+
+    const fetchUser = (username) => {
+        // fetch the user
+    };
+
+    fetchUser('john');
+
+But we can also do a similar thing with React components. In short, when we add JSX, we can simply add a custom attribute to the component and give it a particular user to display. Take for example if we have a component called 'User':
+
+    const User = ({ username }) => {
+        return <p>Username: {username}</p>
+    };
+
+    <User username='John' />
+
+So any attributes that are added to a component will be accessible as props. All props are stored on the props handle, so to access the prop 'username' from within the component we simply need:
+
+    const User = ({ username }) => {
+        return <p>Username: {this.props.username}</p>
+    };
+
+In the case of a list of contacts (without object destructuring) it may be something like:
+
+    const ContactList = (contacts) => {
+        return (
+            <ul>
+                {contacts.map((contact) =>
+                    <li key={contact.name}>
+                        {contact.name}
+                    </li>
+                )}
+            </ul>
+        )
+    };
+
+In short, where you think of _functions passing arguments_, with React you can think of **components passing props.**
+
+**NOTE** Props are immutable, or 'read-only' data. To change it you would need to update a parent component.
+
+## State
+
+Whereas props are immutable, a component's state is mutable data that ultimately affects what is rendered on the page. State can change over time, for example, when a user clicks a button.
+
+To add state to our components, all we need to do is leverage the React useState() hook. Put simply, with React, you need only two concerns: what state is my component in, and how does the UI appear based on that state.
+
+To add a state to a component, you first need to import:
+
+    import { useState } from 'react';
+
+Since React has such a powerful tool in state management, it doesn't make sense to hardcode things such as a contact list into your code. Rather, you want to be able to add state to your components and have it automatically update (such as adding a contact, or deleting, editing, etc.).
+
+After importing useState, you will need to set two variables in order to utilise it.
+
+    1. A variable to hold that piece of state (e.g. the contacts we are using in our contact list)
+    2. A variable function that allows us to change that piece of state (so we can modify or update it accordingly)
+
+The syntaxt will look a little like this:
+
+    const [contacts, setContacts] = useState([]);
+
+useState takes in a single argument, which is the initial state. This is the state that will be used if the component is first rendered. To return to the contact list example, this can be the hard-coded details we had earlier.
+
+    const [contacts, setContacts] = useState([
+        { name: 'John', email: '
+        ...
+    ]);
+
+**NOTE** When defining a component's initial state, avoid using props. This is because props are immutable, and therefore cannot be changed (e.g. NOT THIS > const [user, setUser] = useState(props.user); as you will not be able to alter the user when the state changes).
