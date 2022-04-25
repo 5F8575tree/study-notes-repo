@@ -560,3 +560,69 @@ Then ensure you have built a simple function towards the top of the component th
     const clearQuery = () => {
         setQuery('');
     };
+
+# React Workflow
+
+This is a really important read for figuring out your React development strategy: [Thinking in React](https://reactjs.org/docs/thinking-in-react.html).
+
+# Hooks
+
+## What are Hooks?
+
+With the release of React 16.8 there is a feature called 'hooks', in order to simplify the syntax for developers to use during development: "They let you use state and other features without writing a class" - React Team
+
+Above, we have already been using the useState() hook to update the state of our component. But there are many more, such as useEffect() and useContext().
+
+In short, hooks allow us to access state and other features (such as life-cycle methods) without encapsulating them in a class. They can go directly into a component.
+
+## Side Effects
+
+Side effects are anything that occurs 'outside' the scope of the way a component normally runs. A good example is fetching data with an asynchronous API call.
+
+Why can't we just use a fetch request normally in the component? The problem is that a return statement needs to be free from side-effects as it essentially 'cuts' or 'ends' the code. In fact, we mainly want the return to use props for rendering the UI. The workaround is to utilise the useEffect() hook:
+
+    import { useEffect } from 'react';
+
+useEffect is a special method that each component has that allows us to run custom behaviour during certain times of the components life.
+
+## Using a Database
+
+While we can, to an extend, store data within our components in hard code, it is much more likely that any true project will rely on a database somewhere. Grabbing the data will therefore require an API call.
+
+First, assuming you have set up an API server and perhaps saved it in your project directory named 'utils', you need to import the API into your component:
+
+    import * as ContactsAPI from '../utils/ContactsAPI';
+
+Next you can delete any hard coded data that you want to store on your database (let's say it is the contacts list). Then you can set your setState() to an empty array in the component:
+
+    const [contacts, setContacts] = useState([]);
+
+Since an API call is a side-effect, we need to ensure that the component has useEffect() hook imported:
+
+    import { useState, useEffect } from 'react';
+
+Next, following the useState hook, we can write useEffect and pass it a callback function with any dependencies in an array. You can use either JS promises, or if you prefer you can use async await, to fetch your data and place it in the empty array:
+
+    useEffect(() => {
+        const getContacts = async () => {
+            const res = await ContactsAPI.getAll();
+            setContacts(res);
+        };
+        getContacts();
+    }, []);
+
+Now our app is set up so that our contacts are not coming in from the app itself, but from an external server.
+
+**NOTE** The first argument for our useEffect() hook is a callback function, and the second argument is an array of dependencies. Since we have entered an empty array as our dependencies, this means that the useEffect() hook will only run once, when the component is first rendered.
+
+## Removing Data from the Database
+
+If we are only removing data from the UI, we have the problem that the data will reappear if the user refreshers the browser page. Instead, we want the ability to completely remove the data from the database. In fact, we want it to do _both_: remove from the UI and database.
+
+If our 'backend' database is set up correctly it should have a remove/delete method that can be called. In our app, we can then add the following within our component alongside the code for removing a contact from the UI:
+
+    ContactsAPI.remove(contact);
+
+Now we have persistence in our change! And it occurs both on the frontend UI and in the backend database.
+
+## Side Effect Cleanup
