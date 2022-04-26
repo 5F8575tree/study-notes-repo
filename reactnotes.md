@@ -987,4 +987,7 @@ Finally, we need to update our return value to reflect the CreateContact functio
 # 8. Learn More about React Router
 
 Here is a course to learn more about [React Router](https://ui.dev/react-router).
+
 And of course the [documentation](https://reactrouter.com/docs/en/v6).
+
+Finally, [The Nested Guide To Routes](https://ui.dev/react-router-nested-routes).
