@@ -779,3 +779,164 @@ We will also need a button to be able to switch between these two states. We can
 After all of that manual coding, why use React Router? Well, for one thing, if we press the back button in the browser it does not return us to the previously screen, which is certainly expected behaviour for any user. React Router does this for us.
 
     npm install react-router-dom
+
+in your src/index.js file you will also need to import the Browser Router component:
+
+    import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+## Broswer Router
+
+The main function of this router is simply to listen for changes in the URL and present the correct screen to the user. To use this router, you need to wrap your render method in your src/index.js file in a BrowserRouter component:
+
+    ReactDOM.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>,
+    document.getElementById("root")
+    );
+
+## Navigation with < Link >
+
+The link component is critical to the functioning of our app with Browser Router. When a link is clicked by the user, the link updates the URL in the browser, and the Browser Router will then present the correct screen to the user.
+
+First, in your component file, import link:
+
+    import { Link } from 'react-router-dom';
+
+Next you will want to replace your anchor tags with link and replace the href with a 'to' attribute, remove the onClick handler, and the correponsing onClick handler that lives in the props above (e.g. if you had onClick={ onNavigate } then you would need to remove the onNavigate from the props in the main component line):
+
+    const ListContacts = ({ contacts, onDeleteContact, }) => {
+        ...
+
+    <Link to='/create' className='add-contact'>
+        Add Contact
+    </Link>
+        ...
+
+**NOTE** The 'Link' in the component is the imported 'Link' with a capital letter, so using a lowercase l will cause an error.
+
+Of course, you can also pass an object to Link to= to pass additional props to the link:
+
+    <Link to={{
+        pathname: "/courses",
+        search: "?sort=name",
+        hash: "#the-hash",
+        state: { fromDashboard: true },
+    }}>
+        Courses
+    </Link>;
+
+Now you can pass the pathname, a query string, a hash to link to a particular part of a page, and a state object to pass additional information to the next page.
+
+The documentation for the Link component can be found here [React Router](https://reactrouter.com/docs/en/v6/api#link).
+
+## Navigation with < Route >
+
+With the Link component we can alter the URL in the browser and allow it to persist (so clicking back will return us to the previous 'page). However, we want to use the Route component that essentially will check if the URL matches a certain pathname and, if so, will render our chosen component.
+
+This means that we no longer have to rely on our use of the screen state to determine the rendering of the page.
+
+Firstly, import into your component:
+
+    import { Route, Routes } from 'react-router-dom';
+
+We can now remove all of our 'screen' logic from our app component:
+
+~~const [screen, setScreen] = useState("list");~~
+
+...
+
+~~< div>~~
+~~{~~
+~~screen === "list" && (~~
+~~<ListContacts~~
+~~contacts={contacts}~~
+~~onDeleteContact={removeContact}~~
+~~onNavigate={() => {~~
+~~setScreen("create");~~
+~~}} />)~~
+~~}~~
+~~{~~
+~~screen === "create" &&~~
+~~< CreateContact />~~
+~~}~~
+~~</ div>~~
+
+In place of the deleted logic, we can now include our components, while wrapping them in 'Routes' (simply because in React we need to return only _one_ base level component):
+
+    return (
+        <Routes>
+        <Route
+            exact path="/"
+            element={
+            <ListContacts contacts={contacts} onDeleteContact={removeContact} />
+            } />
+        <Route path="/create" element={<CreateContact />} />
+        </Routes>
+    );
+    };
+
+This now allows us to render the correct component depending on the URL.
+
+## Building a Form
+
+Now that we have the link set up nicely to the create contact page, we can write a form in the CreateContact component. Of course, you want to make it more robust and interesting, but in essence, you could use:
+
+import { Link } from 'react-router-dom';
+
+    const CreateContact = () => {
+        return (
+            <div>
+                <Link className="close-create-contact" to="/">
+                    Close
+                </Link>
+                <form className="create-contact-form">
+                    <input type="text" placeholder="Name" />
+                    <input type="text" placeholder="Email" />
+                    <input type="text" placeholder="Phone" />
+                    <button>Add Contact</button>
+                </form>
+            </div>
+        );
+    };
+
+    export default CreateContact;
+
+### Form Serialization
+
+After creating the above form, we now have something that renders when a user clicks on a button to create contact from the 'home' page. However, we want to make sure that the form is submitted correctly, and that the data is stored in the correct place. In other words, we need some persistence.
+
+For this, we need the data to be read by the app as regular JS, and for that we can use a package called form-serialize.
+
+    npm install form-serialize
+
+Then we can import the serialize function to our form component:
+
+    import serialize from 'form-serialize';
+
+Now we need to adapt our form to listen for a submit event, and add a handleSubmit method:
+
+    import formSerialize from 'form-serialize';
+
+    const CreateContact = ( onCreateContact ) => {
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const values = serlializeForm(event.target, { hash: true });
+
+        if (onCreateContact) {
+            onCreateContact(values);
+        }
+    };
+
+    ...
+
+    return (
+        ...
+        <form onClick={handleSubmit} className="create-contact-form">
+
+        ...
+    )
+    };
+
+## Update Server with New Contact
