@@ -1,6 +1,6 @@
 # Figma
 
-Figma is a free design program that allows you to design web and app projects. It is the fastest growing design tool (overtaking Adobe XD), and can be used directly in your browser. It is a good idea to download the program directly to your CPU, however.
+Figma is a free (to get started...) design program that allows you to design web and app projects. It is the fastest growing design tool (overtaking Adobe XD), and can be used directly in your browser. It is a good idea to download the program directly to your CPU, however.
 
 ## Figma versus XD versus Sketch
 
@@ -31,6 +31,10 @@ At the end of the day, any clients you have will not care which program you use.
 # Misc Tips
 
 If you are grabbing everything and you accidentally grab the frame, too. Press enter to deselect the frame, and you will be left with the selection of all the items within the frame only.
+
+You can measure the difference between two items by selecting one, then holding alt, and hovering your mouse over the second item.
+
+**CSS to Position Items** You can change the dimensions and position of an item by using the CSS properties: the arrow keys will move the item and you can see the CSS top and left move. If you hold ctrl while using the arrow keys you can alter the height and width of an item. This is good to alter things from, say, width 149 to width 150, giving more readable code.
 
 ## Community
 
@@ -159,6 +163,62 @@ There are two ways to add text with the Text Tool: click and start typing, or dr
 
 While you can resize the text box, you can also choose the two other options from the Text options on the right-hand panel: auto width (the same as clicking and typing), auto height (bunches to the height of your text), and fixed size (which is the 'draw a box' version mentioned before).
 
-You can also space the letters and/or the line height: **both of which will be represented in the generated CSS code**!!
+You can also space the letters and/or the line height: **both of which will be represented in the generated CSS code**!! Remember that it is not a good idea to alter the letter spacing, except for short titles, as it will change the feel and beautiful, careful design of the font.
+
+**GOLDEN RULE FOR LINE HEIGHT: The font size, multiplied by 1.5 (or 150%)**
 
 **NOTE**: It's important to have your text box tight around your text, since if you are going to align with other items, Figma will read the text border as the text item to be aligned, and not the text itself.
+
+In short, probably best for paragraphs of text to draw a random box, insert your text, then switch to auto-height.
+
+## Font-Family
+
+It shouldn't be a quick or easy decision to decide a font. It is a matter of having an eye for style and good taste, just like dressing well.
+
+A very handy resource, however, is to download a font from Google Fonts, or downloading a Github resource called [fonts](https://github.com/google/fonts) which you can then save to your C:\Users\YourName\Windows\Fonts folder.
+
+Always choose a font that has at least 3 styles, since it allows for flexibility across your web application.
+
+You can click on a text item and alter the font size by selecting the font size selector on the right-hand panel. You can press your up and down arrows, and if you do this while holding shift it will incrase/decrease the font size in 10 pixel increments. Unfortunately, the font size has to be in pixels.
+
+Usually you want either left or right alignment. Centered font is difficult to use. There are three dots at the bottom-right of the Font Tool - there you can access many more options, including block text and paragraph indentation.
+
+**NOTE** As with saving color styles, you can save your text styles, for example "heading 1", "heading 2', "paragraph", "button", etc.
+
+# Effects in Figma
+
+Background blurs can be effective to show up hard-to-read text, a bit like using a gradient. However, you should probably stick to either a white or black background blur if you plan to use it effectively. A value of around 5 or 6 is usually best for the blur. Again, this will also show up in your CSS as backdrop-filter: blur(5px); Of course, you need to put a rectangle with black (or white) over your image and be sure to apply the blur to your rectangle, and _not_ the image itself. Also, do NOT get carried away with this effect, use it sparingly.
+
+For drop shadows, it is best to only alter the Y-axis and leave the X-axis as 0. This is typical in modern web design. Remember, any drop shadow should be incredibly subtle and barely noticeable! A y-axis of 3 is quite good. Keep the opacity low as well, 25%.
+
+For text, any drop shadow should usually be black (maybe white). But for things like buttons or maybe cards, you could use a color. Choose the same color as the button, raise the blur to around 10, and the opacity to around 50%, with the Y-axis set to maybe 6.
+
+Layer blur is another way to blur the 'background', but be mindful that it will alter the image, and not the background _per se_. The corresponding CSS will be applied to the image as filter: blur(6px);
+
+Don't bother with inner shadow.
+
+**THE GOLDEN RULE FOR EFFECTS: Use them sparingly, and be very subtle.**
+
+# Grids
+
+To add a grid you select the frame and then on the right-hand side look for 'Add Grid' under 'Auto Layout'.
+
+For web design, rather than mobile apps, you will want to select columns. **Set 12 columns with a margin of 360**.
+
+Using a grid is really helpful in many, many ways, but particularly useful is when you redesign for smaller screens as you can align things again with the 12 column grid.
+
+Why a margin of 360? This is because it gives you a center of 1,200 pixels, also known as the 'active area', where most of the key information for a web page need to be. Of course, it is no problem at all to have elements outside of this central grid, but only for decorative purposes and not for main content.
+
+Again, this has responsiveness in mind, too. Since 1920x1080 is the most used screen size worldwide, a close second is a width of 1366 - which means our main content will still be fine, with a little bit of wiggled room on either side. Smaller than that, and you want to apply an @media query to your CSS.
+
+Once you have your grid, you can press shift + R to drag across two ruler lines. This means you can take away the grid to see your project better when you are not using it, but still see the outline of the active area.
+
+**NOTE** Use the eye icon to switch the grid on and off as you work (also, reduce the grid opacity to around 3%).
+
+# Components
+
+Even though you may have set a color and font style for 'button', that doesn't alter any other aspects if you want to change the button later throughout the entire document, for example, less rounded corners, or drop shadow, or padding. All of this can be done instead by creating a component. Once you haave designed your button, click the four diamonds at the top menu right above the canvas to create a component.
+
+The clones of the original will constantly update as you make changes, and so you save yourself a lot of work potentially!
+
+Components will get saved in 'Assets' next to the layers panel on the left-hand side. From there you can simply drag any component to anywhere you want, without the need to press alt and drag.
