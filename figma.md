@@ -36,6 +36,8 @@ You can measure the difference between two items by selecting one, then holding 
 
 **CSS to Position Items** You can change the dimensions and position of an item by using the CSS properties: the arrow keys will move the item and you can see the CSS top and left move. If you hold ctrl while using the arrow keys you can alter the height and width of an item. This is good to alter things from, say, width 149 to width 150, giving more readable code.
 
+Selecting an element within a frame can require multiple double-clicks depending on how 'deep' the item is within the frame. Instead, hover your mouse over the item you want to select, hold ctrl and click.
+
 ## Community
 
 In the community tab you can see multiple plugins, templates, and other resources. To start with, you should learn the principles of web design before exploring the styles and fancy add-ons in the community tab.
@@ -135,6 +137,10 @@ Not only is this quicker when you are creating new items for the page, but if yo
 
 **NOTE** Picking a bright color: about 2cm down and 1cm from the right of the color pop-our swatch is a good place to start as most colors you go through from there will look bright and modern.
 
+## #f2f2f2
+
+It is really worth investing some time in figuring out a nice off-black and a nice off-white to use while you are at least building out the design. It will instantly make the design look better and you can always come back and adjust it later. #F2F2F2 is a decent light grey, and #F5F5F5 is an off-white grey, but you can do better.
+
 # Images
 
 **Place your images inside rectangles**: This is certainly one case where you want to use rectangles (or circles) instead of frames, as the image will be centered immediately to look good. You can resize the image by clicking on crop in the centre menu directly above the canvas. This will allow you to place the image better in the rectangle and allow you to resize it if you want (remember to hold shift to retain the aspect ratio).
@@ -222,3 +228,33 @@ Even though you may have set a color and font style for 'button', that doesn't a
 The clones of the original will constantly update as you make changes, and so you save yourself a lot of work potentially!
 
 Components will get saved in 'Assets' next to the layers panel on the left-hand side. From there you can simply drag any component to anywhere you want, without the need to press alt and drag.
+
+# Grabbing Things From Websites
+
+If you want to practise recreating certain web pages to increase speed, one good tip is to use inspect on a page, then follow the link of a logo and open it in a new tab. Then you can download that logo in it's original form (PNG or SVG) and save it to your local computer for use in Figma.
+
+Your logo should be placed right to the left-hand edge of your 1200px active area.
+
+**Flaticon** is a great resource for icons. Try it [here](https://www.flaticon.com). It is not free, but it is the best of the best by far. We can grab social media icons here easily.
+
+**Choose SVG** as it is crisper in quality than PNG.
+
+# Header
+
+If you use an off-white color for the page background, you can have a pure white header. It's width should be 1920, and it should be centered, with a height of maybe 100px.
+
+Circles are great for social media icons as they will all be the same size. Have them around around a height of 40px, and space 10px between them. Move the to align centrally in the vertical axis of the header and touch the right-hand ruler. Don't leave them black, instead you should grab a brand color for the web page.
+
+Rename the frame as 'Header'.
+
+# Main Menu Bar
+
+It is quite modern to have a minimalistic design for your main menu. You can create another frame, directly below the header, and give it a height of 60px and a fill of the branded color.
+
+Use the text tool and add 14px font size, and a white color. Poppins is a good template font-family. Remove padding. Select the text item itself, not the frame, and use ctrl + D to duplicate it. If you have set auto layout, Figma with place it next to the original.
+
+Once you have written all your menu names out side by side, select the frame on the left-hand panel, and increase the default gap between them.
+
+**IMPORTANT NOTE** Users expect this menu to be on the left-hand side, so space the items out, but don't center them. Let the last item go just over half-way across the horizontal axis of the screen (960px is the center line).
+
+You want to set a color to show which is the current page (or an underline?). A decent choice is fff000 (yellow).
