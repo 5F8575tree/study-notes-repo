@@ -38,6 +38,14 @@ You can measure the difference between two items by selecting one, then holding 
 
 Selecting an element within a frame can require multiple double-clicks depending on how 'deep' the item is within the frame. Instead, hover your mouse over the item you want to select, hold ctrl and click.
 
+If you have many items in a frame, and want them all selected, first select the frame that contains them and then press enter.
+
+You might want an item 'in between' frames. In this case, grab the item and start moving it on the canvas, then press the space bar and drop it in between the layers where you want it placed.
+
+# Design Tips
+
+In general, you want to work with the development in mind. So, it is far better to use a shade of color than to try and use a color with opacity.
+
 ## Community
 
 In the community tab you can see multiple plugins, templates, and other resources. To start with, you should learn the principles of web design before exploring the styles and fancy add-ons in the community tab.
@@ -266,3 +274,59 @@ You want to set a color to show which is the current page (or an underline?). A 
 It is quite trendy to have around 5px border radius, as well as having a button inside the search box and some placeholder text. Start with text > ctrl + A > Fill background white > Add a stroke and reduce opacity (or select #C9C9C9) > set the height to around the same as your menu height (50px) > Align the text to the left, but then change from 'packed' to 'space between' > Add left padding of around 20px for the text (keeping the rest at 10px).
 
 Select the placeholder text and Add Layer (ctrl + A). Now when you click inside the search frame again and add text for the button, it will be spaced over to the right, with your placeholder text left-aligned! Now you can repeat the fill for the button within the search to a branded color. Change the text to white. Change the placeholder text to #A4A4A4. You will probably also want to return to the search frame and reduce the right-side padding to 5px.
+
+# Cards
+
+Cards are often the most important design feature of the web page, since they are presumably calls to action. Type a header, type a sentence or so, and then combine those (two separate) text items into a frame. Fill the frame with white. Add 20px padding all around. For the card title you could use semi-bold, 20px. Then the descriptive text could be regular, 14px. Ensure you have the auto height setting for the descriptive text to make sure you can see 20px only as the bottom padding.
+
+Set the spacing between items as 10px. Then add a rectangle to the top for the image.
+
+**NOTE** You want to have the text items set to 'resizing' of width: fill container in the right-hand panel.
+
+**CARD WIDTH** With a 1920 width page, 1200 active area, you want a card to be a third: 380px width (card is text + padding).
+
+## Card Improvements
+
+First, make the card a component. Then rename it, and remove it from the page frame. Typically, you will have a separate file containing all your components. Even in a mock up design, you will want to layout the cards in a grid as though you have a full page (unless you are doing something where you know you only need 3-4, for example a pricing plan or something). Around 40px between cards vertically is good, and for the width you set the left and right to the edges of your 1200 active area and then use the space between button.
+
+Again, even in mock ups you need to use different content for each card. After pressing ctrl+shift + K you can select multiple images and then click them in quickly to add them to each card.
+
+Going back to our component, you will now be able to make design changes that affects all cards. Start by trying a bottom-only border radius of 15px. Try a #C9C9C9 stroke color for the card (note that neither of these alterations are made to the top image section of the card).
+
+Rather than using pure black for the text, you could try #222222 to add a little refinement.
+
+# Pagination
+
+Pagination is required on any page where you have items that flow over to other pages. A good example is search results. Pagination is expected since it is something a user will expect having used Google all their life. It basically shows you a certain number of pages, and have the current page highlighted in some manner.
+
+Use text and type 1. Then enable auto layout by pressing shift + A and add a white fill for now. Have 20px padding on the sides and 10px for the top (10px 20px). Set the border radius to maybe 5px. Set an inside black stroke set to 2px - you never want to go lower than 2px for something you want to pop out (whereas with the card stroke we want 1px as it is just to add a hint of texture).
+
+Place it directly against the left-hand line of your 1200px active area.
+
+Make it into a component. Rename it, and remove it from the page frame.
+
+Clone them and set them 30px below the search card results and leave 10px between each pagination item.
+
+Next, return to the component item and change the border and number color to a branded color. You want to hightlight the current page by selecting it, removing the component stroke color, and then switching the two colors associated with just this component.
+
+If your web application has more than 5 pages, then you can add a space between the first 3 and the last 2 and enter a ... to show that you have more pages.
+
+# Footer
+
+Drag out another frame, 1920 width, and around 400px height. Light colors are usually nice for a footer, but we can try #333 for variation. You can add a branded color bar to the top by dragging a rectangle and giving it a width of 1920 and height of 6px. For titles, go for regular weight font, 14px, and uppercase.
+
+Set the distance from the top of the frame to 60px. For the distance between you will want to use your 12 column grid. You need to do a little maths. For 3 titles, you want to set them four columns each. Likewise, if you have 4 titles, you want to set them to three columns each.
+
+Instead of white, you could go for a light grey - maybe #E5E5E5.
+
+For the actual items under the title, you want normal casing for the font. If a particular title has numberous items, then use two columns within the space allowed for that title. If one column has to be longer than the other - it should be the left column.
+
+For any paragraphs of text here (or even long item names under headers) make sure that you don't go over the number of columns you have determined for the title. In fact, paragraphs should go right across all three/four columns.
+
+Key information, such as an email address, should be in a different, brighter color than the other text.
+
+**NOTE** Why is the footer so big? Why not a single line with copyright? Well, most businesses will have legal obligations to include certain information, such as GDPR rules, and you want to leave enough space for this to be available either now, or in the future.
+
+**TIP** Although we gave each title section a certain number of columns, it may not look great depending on the content. A great tip is to make groups out of each of the sections you have, say there are four in total, and then select the four groups and click 'tidy up'. This will move them to a nice balanced position.
+
+**TIP** If you feel you must use a line border at the bottom (not very popular in design at the moment), make sure it is a really subtle color that is just a hint. Try #434343 on a dark background.
