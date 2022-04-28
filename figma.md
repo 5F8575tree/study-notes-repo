@@ -191,6 +191,8 @@ Usually you want either left or right alignment. Centered font is difficult to u
 
 **NOTE** As with saving color styles, you can save your text styles, for example "heading 1", "heading 2', "paragraph", "button", etc.
 
+**FONT-WEIGHT**: You will probably find that the larger the font size, the smaller you want the font weight to be.
+
 # Effects in Figma
 
 Background blurs can be effective to show up hard-to-read text, a bit like using a gradient. However, you should probably stick to either a white or black background blur if you plan to use it effectively. A value of around 5 or 6 is usually best for the blur. Again, this will also show up in your CSS as backdrop-filter: blur(5px); Of course, you need to put a rectangle with black (or white) over your image and be sure to apply the blur to your rectangle, and _not_ the image itself. Also, do NOT get carried away with this effect, use it sparingly.
@@ -258,3 +260,9 @@ Once you have written all your menu names out side by side, select the frame on 
 **IMPORTANT NOTE** Users expect this menu to be on the left-hand side, so space the items out, but don't center them. Let the last item go just over half-way across the horizontal axis of the screen (960px is the center line).
 
 You want to set a color to show which is the current page (or an underline?). A decent choice is fff000 (yellow).
+
+# Search box
+
+It is quite trendy to have around 5px border radius, as well as having a button inside the search box and some placeholder text. Start with text > ctrl + A > Fill background white > Add a stroke and reduce opacity (or select #C9C9C9) > set the height to around the same as your menu height (50px) > Align the text to the left, but then change from 'packed' to 'space between' > Add left padding of around 20px for the text (keeping the rest at 10px).
+
+Select the placeholder text and Add Layer (ctrl + A). Now when you click inside the search frame again and add text for the button, it will be spaced over to the right, with your placeholder text left-aligned! Now you can repeat the fill for the button within the search to a branded color. Change the text to white. Change the placeholder text to #A4A4A4. You will probably also want to return to the search frame and reduce the right-side padding to 5px.
