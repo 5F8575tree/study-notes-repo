@@ -331,7 +331,11 @@ Key information, such as an email address, should be in a different, brighter co
 
 **TIP** If you feel you must use a line border at the bottom (not very popular in design at the moment), make sure it is a really subtle color that is just a hint. Try #434343 on a dark background.
 
-# Settings for Your Website
+# FOUNDATION ONE: Pixel-Perfect Execution
+
+Your items, the font colors, sizes, the images, the **balance**: all of the things must be executed to perfection. This is the basis of good design. You won't win design awards, but you can create multiple excellent designs to a strong level.
+
+## Settings for Your Website
 
 We know the desktop design will be 1920x1080 - i.e. Full HD (active area width 1200), but your maximum height should be no more than 8000px if you have lots of content to scroll down through.
 
@@ -407,4 +411,91 @@ If you plan to use large icons somewhere, never go with filled icon packs. They 
 
 **GOLDEN RULE** Icons can sometimes be tricky (unless you use contained circles or squares), since one icon in a pack may be square and another a rectangle, or odd shape. Say you square is 90 x 90 pixels, the golden rule is to keep the longest length of the other icons to 90 pixels and just let the aspect ratio handle the smaller length.
 
-# Understanding the Clint's Needs
+# FOUNDATION TWO: Understanding the Clint's Needs
+
+Can you put yourself in the client's shoes? What is their core purpose?
+
+A website is just a tool - a means to an end. You must be crystal clear on what the website is trying to achieve, and forget everything else. This will give you laser focus to look at the website from the user's perspective, i.e. **is it really obvious what I need to do next?**
+
+Aesthetics are secondary to purpose - just like clothing!
+
+The business owner (client) should be able to give you a really clear idea of who the user is, their persona. So, it is key in your prep work to answer these questions:
+
+    - What is the user persona?
+    - What do they need to do next?
+
+This is a sniper rifle approach, not a shotgun approach.
+
+Remember also that user's are irrational and the have zero patience. They may be visiting 20 websites and **you only have seconds to get across the message and also not offend them with ugly or depressing design.**
+
+A high bounce rate is an expensive problem for a business owner. Not only are they losing potential business, but they have also paid for advertisement which is based on pay-per-click, perhaps.
+
+## Statistics
+
+Both as an entrepreneur and a web designer, you need to measure things and make every decision based on statistics.
+
+During initial design, you can only truly make your best educated guess. But after the website is live, you can view analytics to see where performance can be improved. For example, users may be adding items to their cart, yet not actually purchasing. Figure out the problem: are the shipping costs clear? Is the payment method clear? etc.
+
+Google Analytics is your friend, and most ad campaign tools will also give excellent statistics (such as FaceBook ads).
+
+Another key thing to remember is that 90% of visitors to a web page are viewing it on a mobile device. **THE GOLDEN RULE: Mobile-First.**
+
+In short, everything you design has to be tested. Charge a fixed price for a project, then charge an hourly rate for the follow-up changes!
+
+If the client is a good business person, they will be able to tell you the **KPI's** that they are seeking to achieve.
+
+## Templates?
+
+There are a lot of benefits to WordPress Themes, ThemeForest, EnvatoMarket, and Elementor Pro. And it certainly means web designers are not entirely secure in their career forever.
+
+Why are templates not so great?
+
+    1. They are actually quite hard work to use, even for a designer.
+    2. **Time** is the most important thing for a business owner. Business owners are not thinking about money, they are thinking about time.
+    3. People want quality, and something tailored to their own needs. This goes back to the clothing analogy - UniQlo might work for underwear, but not for a fitted shirt. If you client is a business owner, it is probably the thing they love most in the world, they don't want a cheap version that any one can use.
+
+In short, the markets are different: both can coexist. Web designers are simply the 'premium' service.
+
+## What happens if your design is sub-par after coding?
+
+It depends on the problem and whether or not there is an impact on the purpose of the website. Most business owners will overlook a slight odd design aspect that was a result of bad coding, but would need to jump straight to action if they found that when a user buys a product from the site the money doesn't process, or another critical problem.
+
+It is just like code development - you handle the critical problems first and then iron out any slight details when you have time.
+
+## Case Study(s)
+
+Think of two opposite market: luxury shoppers, and kids games. A luxury brand will like clean, white, spacious designs. Kids will want bright colors will overly popping designs! These are extremes, but the idea is valid: the client is looking for something that will work for them.
+
+Another way of thinking about it is that if you are building a website for a vegan food store, you don't go with photo's of meat. You first need to research a ton of vegan-related websites and even read some blog articles to discover what it is that vegan people like: their persona. This is the key.
+
+## Landing Pages
+
+Typically a landing page differs from a website in the sense that it sets it's goal as getting just one thing. This is usually either capturing the user's information, i.e. getting them to sign up so you have their email; or it is to make a sale.
+
+The landing page is the ultimate one-purpose design. They are usually linked to an advertising campaign that has already grabbed you based on the fact that you clicked the advertisement.
+
+Gathering information is lead generation, because it is proven that a customer has a certain tipping point during interaction with you after which they become an 'addicted' user. For example, FaceBook users once the get to 8 friends, or someone who 'likes' more than 10 songs on Spotify. Netflix users who take the free trial for a month are also extremely likely to continue using the paid service. These are all researched points where someone goes from just taking a look to becoming a full-on user (read 'Principles of Data Wrangling' if that is a subject you are interested in, bet still, read **'Algorithms to Live By'**).
+
+Certain customer persona's are far, far more likely to like a slow approach, but generally all people prefer the slow burn approach anyway.
+
+You want to keep a landing page short and sweet for this reason. The longer the page, the more likely it is that the user will abandon the site. The **first headline** becomes absolutely key, and further headlines should just hammer home the same point in differently phrased ways.
+
+Zibbet.com is a great example of a strong landing page.
+
+Essentially, however, you don't need a cheesy landing page. A landing page is just a web page, but with only one single purpose: information grab or sales. The design principles should be the same.
+
+**We are all motivated by two things: pleasure, and avoiding pain**. This is because we are irrational and have no patience, but you can use that to increase the probability of success.
+
+Landing pages usually have a bad reputation as they are often used for pyramid scheme meetings, weight loss pills, or some other psuedo product or service. Clients probably _want_ a gimmicky, overbearing, 'poor' design, as it attracts who they are aiming to attract (note: serious businesses use landing pages, take Zibbet or Uber, for example). **It is up to you if you want to make money by freelancing and making landing pages, but it may offend your own ideas of web design to actually be good at it!** There is a scam to use landing pages just by playing the numbers and realising that if you advertise to a large enough group of people, you will find enough idiots to purchase and give the scammer profit.
+
+## Testing Your Work
+
+You work is never 'finished'. It's imperative to use [GoodUI](https://goodui.org).
+
+A/B testing is fantastic, but unreasonably expensive to run. You make the same website, but perhaps on the A version you have a 'SIGN UP' button, whereas on the B version you have an email entry field alongside the sign up button (this is what Netflix did in December 2019). You then look at the analytics and see which version converted better.
+
+Running A/B tests is too expensive unless you are a major business, but implementing the results are not. You could therefore use goodui.org to gain insights into what has worked better for other web designs (Netflix went with the B version) and use it in your design. You will also be able to test out the other version if the first version doesn't seem to be converting as well as you predicted.
+
+# FOUNDATION THREE: Attention to Detail
+
+It is often the small details that make a design great. An example is the use of off-black rather than pure black. Most people won't notice, but it will be perceived subconsciously. All the small changes all add up and together become very powerful.
