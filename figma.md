@@ -330,3 +330,81 @@ Key information, such as an email address, should be in a different, brighter co
 **TIP** Although we gave each title section a certain number of columns, it may not look great depending on the content. A great tip is to make groups out of each of the sections you have, say there are four in total, and then select the four groups and click 'tidy up'. This will move them to a nice balanced position.
 
 **TIP** If you feel you must use a line border at the bottom (not very popular in design at the moment), make sure it is a really subtle color that is just a hint. Try #434343 on a dark background.
+
+# Settings for Your Website
+
+We know the desktop design will be 1920x1080 - i.e. Full HD (active area width 1200), but your maximum height should be no more than 8000px if you have lots of content to scroll down through.
+
+The top portion of the page will be your header - including the logo, navigation, and some buttons like 'log in' or 'sign up', etc.
+
+Immediately below this is the 'hero area'. By far the most important part of a website.
+
+Below, you will likely have a 'sub-hero region' (optional). This could be for main cards, or other key information not required in the hero.
+
+Next, you have the content. Then finally the footer.
+
+If in doubt, ask your: have I seen this layout on a large, mainstream layout? If the answer is no, then you have probably done something wrong.
+
+**KEY** Don't forget to wireframe your website first to make sure you have a solid design framework. This can simply be grey boxes with white boxes and text. But the key is to ensure that it is a standard web page format, while also containing all the elements you need to place on your website.
+
+## Sizing Your Website
+
+It is worth getting a decent browser extension that allows you to take a screen shot (that will include the full web page design only). Then you can insert the screen shot into your project and lay it over your web page design. Then reduce it's opacity to around 50%, and you can easily compare sizing for things like buttons, titles, images, etc.
+
+GoFullPage is a good option for Chrome.
+
+## Text Sizing for Paragraphs
+
+Line Height = Font Size x 1.5 (150%). You can round it out is the resultant number is awkward, i.e. 18 font x 1.5 is 27, but you can use 28 instead.
+
+Ensure a line break with one clear space between paragraphs.
+
+You never want more than a maximum of 4 lines of text per paragraph.
+
+You don't want to have a wayward word or two on the bottom line of a paragraph. So if that is the case, increase the width of the item so that the word joins the above line.
+
+The width of the paragraph item should be around 600-700px, generally. You definitely don't want text that has really long lines, definitely not spanning the width of the web page.
+
+Always left-align text.
+
+**NOTE** Never put paragraphs of text in the hero area, one is about the maximum you can get away with.
+
+## Color Contrast
+
+The two colors need to be 'strinkingly different'. In other words, the contrast for text vis-a-vis background should be either maximum or very close to maximum.
+
+Don't jeopardize the contrast by using a super bright color for a button to make it 'stand out'. The white text will not be visible and there are better ways to make a button stand out.
+
+Pure white is always best on a color background for a button.
+
+Again, remember that dressing a web page is like dressing yourself. The odd hint of fun is great, but you can't beat the classic style principles.
+
+**HINT** To repeat, the best place for finding good background colors (other than off-white and off-black) is around 2cm down from the down right of the color swatch. From there you can use the color scroller to find interesting colors that you can be sure will allow enough contrast for a light text.
+
+Another good rule is that the brighter the color, the less you want it on your page.
+
+Yellow is a very tough color to pull off in terms of contrast. You can make it work, but it is so closely associated with DHL and other 'yellow' companies that it will be hard to shake off that association.
+
+**DON'T** Base your color scheme on the client's logo. The reason is that the logo may be bad, and you will get huge headaches working with it. Instead, either keep the logo on something simple like off-white or off-black, or redesign the logo.
+
+## Hero Alignment
+
+The difficulty with poor alignment is that client's will not know how to tell you, they will only be able to see a poor design or say that 'something is not quite right'.
+
+If you have a title, short paragraph and a button, you should treat those as one group and ensure they are aligned correctly within the hero - i.e. left-aligned within the 1200px active area, and central between top and bottom of the hero. If you don't do this, you will be leaving some blank area somewhere for no good reason.
+
+Another key rule, you placement of the information is **paramount**. The background image is simply design and should not dictate the placement of your content - even if you feel like a tree branch is in the way or something, you just need a better image or to alter the image to make it work with the correct placement of the content. In short, **content first**.
+
+## Icons
+
+The key rule is to use the same set of icons. But if you have social media icons, and then instead you have more intricate 'product' icons then they can be two separate sets.
+
+This is a great reason to use Flaticon, as you can simply download packs.
+
+Again, only use **SVG** icons.
+
+If you plan to use large icons somewhere, never go with filled icon packs. They are way too heavy and they are boring. You can use more intricate icons because you have the space. On the other hand, for small icons use simple, filled icons.
+
+**GOLDEN RULE** Icons can sometimes be tricky (unless you use contained circles or squares), since one icon in a pack may be square and another a rectangle, or odd shape. Say you square is 90 x 90 pixels, the golden rule is to keep the longest length of the other icons to 90 pixels and just let the aspect ratio handle the smaller length.
+
+# Understanding the Clint's Needs
