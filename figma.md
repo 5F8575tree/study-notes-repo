@@ -501,3 +501,72 @@ Running A/B tests is too expensive unless you are a major business, but implemen
 It is often the small details that make a design great. An example is the use of off-black rather than pure black. Most people won't notice, but it will be perceived subconsciously. All the small changes all add up and together become very powerful.
 
 ## UX
+
+Although the design work is mainly under the banner of UI, you can't really execute good UI without paying attention to UX. Think of a truly beautiful button that doesn't have a hover effect. The user will be getting a poor experience, and this will turn them off.
+
+The web page simply cannot be slow or awkward to use.
+
+In short:
+
+    - UI is about how it looks
+    - UX is about how it works
+
+## Minimum Refresh
+
+One reason to be excited about coding React or other dynamically loading web apps is that not having the page refresh is an incredible improvement in UX.
+
+## Making an Interactive Prototype
+
+There are lots of tools on making prototypes, and it is expected practise even for simple web apps. Adobe XD allows you to do this.
+
+# The Process
+
+## Research
+
+### Purpose (Client) and Persona (User)
+
+As noted, we need to have two things in mind before starting a design: what is the purpose of the web page? What is the user's persona?
+
+What to do when you know these things: you have to do further research on what it is that will be attractive to your target market. For example, if you know your market segment are women, how do we know how to attract women? A good tip is to use Google Images: search for mens deodorant, then search for womens deodorant. You will see major differences in design. Take notes on them - compare key colors, angles, fonts, etc.
+
+A caveat: Even if the user is 90% female, that doesn't mean you want to completely forget the other 10% who are men. You don't need to make it pink and decorate it like a cliche women's magazine or teenagers diary.
+
+**Rule of Thumb**: If the market segment is 80% female, you still only want to go for a 60/40 female/male design. Don't go 100% or even 80% 'feminine'. Likewise with any other demographic in the market segment.
+
+### Finding Inspiration
+
+You may need to look at 20, 50, or 100 websites until you find 2 or 3 that are similar to your target market. If you add your evergreen favourite designs, you will have a total of 5 maximum, but the fewer the better.
+
+[Zibbet](https://www.zibbet.com/).
+
+### Setting the Foundation for the Project
+
+...
+
+# Mobile First
+
+Even though the page is smaller and you want the design to remain consistent, you still have to keep in mind the main purpose and objective of the web page.
+
+**Three 'Simples' for Mobile**: It must be simple, intuitive, and easy to use.
+
+You don't want to design for every single device. The design side is for creating a guide to then develop with your CSS. So, you can pick something like the Android Small (width 360) to get a general feel of the design. There are thinner screens, such as iPhone Mini (width 320), but 360 is towards the smaller size while not being an outlier.
+
+Another good option would be the iPhone 11 Pro/X (width 375).
+
+## Mobile Active Area
+
+If we are using the 375 width option, we want 20px on either side of our active area. This gives us an active area of 335 pixels, which is enough to fit every phone except an iPhone SE.
+
+It is good practise to grab a screen shot from your phone and drag it inside Figma so that you can measure various heights rather than guessing.
+
+## Top Bar
+
+If you are using a top-bar (note: this is not the header), then you want it to be perhaps 30px in height. If you have any icons in the top bar you could scale them to 20x20.
+
+**NOTE** For a mobile APP design, you will need to include the phone top bar that includes the time, service provide, battery life, etc. But for a web page you will be accessing via a browser and so you will not need these things as they are incorporated within the browser design.
+
+## Header
+
+Headers are vastly different on mobile designs. You simply don't have space for a full navigation bar, so you are better to use just the logo and a hamburger drop-down menu.
+
+The header height will typically be around 60 pixels.
