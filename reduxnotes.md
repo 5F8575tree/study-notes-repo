@@ -192,6 +192,8 @@ What is now happening:
 
 ## Putting it All Together
 
+### Building a Todo Application
+
 In the app, if we wanted to invoke what we have created with our store we can use the following:
 
     const store = createStore(todos);
@@ -207,3 +209,119 @@ In the app, if we wanted to invoke what we have created with our store we can us
     });
 
 **Now every time we want to update the state of our store, all we have to do is call dispatch (store.dispatch()) with the action that occurred.**
+
+We also want to be able to remove a todo and toggle. For this, we need to alter our reducer function:
+
+    function todos (state = [], action) {
+        if (action.type === 'ADD_TODO') {
+            return state.concat([action.todo]);
+        } else if (action.type === 'REMOVE_TODO') {
+            return state.filter((todo) => todo.id !== action.id);
+        } else if (action.type === 'TOGGLE_TODO') {
+            return state.map((todo) => todo.id !== action.id ? todo :
+            Object.assign({}, todo, { complete: !todo.completed }));
+        } else {
+            return state;
+        }
+    }
+
+**Note**: This remains a pure function as it only depends on the action and the state - we are not altering the state, just using it for concat, map, filter, and a touch of Object.assign to create a new object.
+
+One problem with the todos function we have created is that it encompasses a lot of actions, and where you notice a lot of if statements, you may find it easier to fall back on a switch statement:
+
+    function todos (state = [], action) {
+        switch (action.type) {
+            case 'ADD_TODO':
+                return state.concat([action.todo]);
+            case 'REMOVE_TODO':
+                return state.filter((todo) => todo.id !== action.id);
+            case 'TOGGLE_TODO':
+                return state.map((todo) => todo.id !== action.id ? todo :
+                Object.assign({}, todo, { complete: !todo.completed }));
+            default:
+                return state;
+        }
+    }
+
+Adding was pretty clear. But to clarify, when we used REMOVE_TODO, we called filter() on the state. This returns a new state (an array) with only todo items whose id's do not match the id of the todo we want to remove. Then we added the TOGGLE_TODO case, we want to change the value of the 'complete' property on whatever id is passed along on the action. We mapped over the entire state, and if todo.id matched action.id, we used Object.assign() to return a new object with merged properties. If it didn't match, we returned the original object: (todo.id !== action.id ? todo) - where the : is the 'or' operator.
+
+With the addition of the switch statement, we checked the action.type against the various 'case' statements and returned the appropriate state. It _feels_ a little bit cleaner this way.
+
+### A Goal's Functionality
+
+The app is pretty simple with just managing a todo list. We can make it a bit more interesting by managing a list of goals as well.
+
+    function goals(state = [], action) {
+        switch (action.type) {
+            case "ADD_GOAL":
+                return state.concat([action.goal]);
+            case "REMOVE_GOAL":
+                return state.filter((goal) => goal.id !== action.id);
+            default:
+                return state;
+        }
+    }
+
+Now instead of having a single reducer, we have two reducers. This is an issue as we _cannot_ pass our createStore function two reducers. We need to create a **Root Reducer** that can act as a middleman between our separate reducers and our createStore function.
+
+Previously both of our reducers set the state to arrays. Instead, we can create a reducer that can set the state to a list of objects:
+
+    function app (state = {}, action) {
+        return {
+            todos: todos(state.todos, action),
+            goals: goals(state.goals, action),
+        };
+    }
+
+Now instead of passing todos to createStore, we can pass app: const store = createStore(app);
+
+## Improving our Code
+
+### Constants
+
+We have placed a large number of strings in our code so far: 'ADD_TODO', 'TOGGLE_TODO', 'ADD_GOAL', etc. and strings are prone to typos. It is a good idea to create constants for these strings.
+
+Thus, instead of the string, we can create variables at the top of our app code (not in our store):
+
+    const ADD_TODO = 'ADD_TODO';
+    const TOGGLE_TODO = 'TOGGLE_TODO';
+    const ADD_GOAL = 'ADD_GOAL';
+    ...
+
+Now we avoid any misspellings or typos that wouldn't show up in any error.
+
+### Action Creators
+
+If we make a large number of actions in our application, we are hardcoding and duplicating a lot of code. Instead, we can create action creators. For example, with our ADD_TODO actions, we can instead use:
+
+    function addTodoAction (todo) {
+        return {
+            type: ADD_TODO,
+            todo,
+        };
+    }
+
+And with that, we no longer need to repeat the speicific type and the potentially numerous todo objects (id, name, complete, etc.)
+
+Now to invoke it with a dispatch we can use:
+
+    store.dispatch(addTodoAction({
+        id: 1,
+        text: "Learn Redux",
+        completed: false
+        })
+    );
+
+For the adding actions you still need to enter quite a bit of code, but action creators really become useful where only an id is required. For example if we made a removeTodoAction and gave it the parameter (id) we can invoke it like this:
+
+    store.dispatch(removeTodoAction(0));
+
+This really cleans up our code.
+
+# UI and State
+
+## UI
+
+We have now built the major portion of our redux project, but we now need to add some UI to complete the interaction.
+
+### index.html
