@@ -462,11 +462,14 @@ Now we can delete the 'library' section of code we built, and also when we creat
         })
       );
 
-We've now seen exactly how Redux itself works by building our own imitation library. But of course, in a real project you will use the Redux library.
+We've now seen exactly how Redux itself works by building our own imitation library. But of course, in a real
+project you will use the Redux library.
 
-**NOTE** combineReducers is a function that takes an object of reducers and returns a single reducer. Think of it as a root reducer.
+**NOTE** combineReducers is a function that takes an object of reducers and returns a single reducer. Think of it as
+a root reducer.
 
-You can essentially end up with a number of further 'root'-esque reducers in much the same way that you would use components in React. This may then give you a real root reducer file that just looks like this:
+You can essentially end up with a number of further 'root'-esque reducers in much the same way that you would use
+components in React. This may then give you a real root reducer file that just looks like this:
 
     import { combineReducers } from 'redux';
     import booksReducer from './books_reducer';
@@ -480,3 +483,131 @@ You can essentially end up with a number of further 'root'-esque reducers in muc
     export default rootReducer;
 
 # Redux Middleware
+
+For an extra piece of functionality, we can add a function that checks the user's input for 'forbidden fruit'. If they enter a todo that contains a word that is something we do _not_ want them to do, we can intervene:
+
+    function checkAndDispatch(store, action) {
+        if (
+          action.type === ADD_TODO &&
+          action.todo.name.toLowerCase().includes("bitcoin")
+        ) {
+          return alert("No, that's a bad idea");
+        }
+        if (
+          action.type === ADD_GOAL &&
+          action.goal.name.toLowerCase().includes("bitcoin")
+        ) {
+          return alert("No, that's a bad idea");
+        }
+        store.dispatch(action);
+      }
+
+Now we can go through our code and anywhere we see the invocation of store.dispatch, we can replace it with checkAndDispatch and pass in the store and action. Thus, the addTodo function becomes:
+
+    function addTodo() {
+        const input = document.getElementById("todo-input");
+        const name = input.value;
+        input.value = "";
+
+        checkAndDispatch(store,
+          addTodoAction({
+            name,
+            id: generateId(),
+            completed: false,
+          })
+        );
+      }
+
+Of course, this is not a serious idea in hardcoding 'bitcoin', but the principle and functionality itself is incredibly important as we can use this to intercept actions that we don't want to allow (emails without @ sign, for example, or non-matching passwords).
+
+In fact, we don't need to do this ourselves, we can use Redux's built-in middleware.
+
+## Native Redux Middleware
+
+Middleware is '…a third-party extension point between dispatching an action, and the moment it reaches the reducer.'
+
+What's great about middleware is that once it receives the action, it can carry out a number of operations, including:
+
+- Producing a side effect (e.g., logging information about the store)
+- Processing the action itself (e.g., making an asynchronous HTTP request)
+- Redirecting the action (e.g., to another piece of middleware)
+- Dispatching supplementary actions
+
+…or even some combination of the above! Middleware can do any of these before passing the action along to the reducer.
+
+### Checker
+
+We can add some (slightly awkward looking) Redux middleware to replace our use of checkAndDispatch:
+
+    const checker = (store) => (next) => (action) => {
+        if (
+          action.type === ADD_TODO &&
+          action.todo.name.toLowerCase().includes("bitcoin")
+        ) {
+          return alert("No, that's a bad idea");
+        }
+        if (
+          action.type === ADD_GOAL &&
+          action.goal.name.toLowerCase().includes("bitcoin")
+        ) {
+          return alert("No, that's a bad idea");
+        }
+        return next(action);
+      };
+
+Next refers to the following piece of middleware if we have one in line _or_ it will be store.dispatch. Note that it is called **twice** in the checker function. Again, we now need to replace our checkAndDispatch calls back to store.dispatch:
+
+    function addTodo() {
+
+        ...
+
+        store.dispatch(
+          addTodoAction({
+            name,
+
+        ...
+
+      }
+
+Then we can alter our store function to include the checker middleware by passing it as the second argument:
+
+    const store = Redux.createStore(
+        Redux.combineReducers({
+            todos,
+            goals,
+        }),
+        Redux.applyMiddleware(checker)
+        );
+
+### Logger
+
+The benefits of this logger() middleware function are huge while developing the application. We'll use this
+middleware to intercept all dispatch calls and log out what the action is that's being dispatched and what the state
+changes to after the reducer has run. Being able to see this kind of information will be immensely helpful while
+we're developing our app. We can use this info to help us know what's going on in our app and to help us track down
+any pesky bugs that creep in.
+
+First, we can create the following function:
+
+    const logger = (store) => (next) => (action) => {
+        console.group(action.type);
+        console.log("The action: ", action);
+        const result = next(action);
+        console.log("The new state: ", store.getState());
+        console.groupEnd();
+        return result;
+      };
+
+The console.group & console.groupEnd functions are used to group together similar actions and log everything that occurs in between them.
+
+The result variable is used to dispatch the action.
+
+Next we simply update our applyMiddleware method call within our store function to include the logger middleware:
+
+    Redux.applyMiddleware(checker, logger);
+
+This is truly invaluable middleware when developing web applications.
+
+# Redux with React
+
+It is not only React that can be linked up to Redux, you can also use Vue, Angular, or even plain old JavaScript. For the current purposes, however, we'll now look at how to use Redux with React.
