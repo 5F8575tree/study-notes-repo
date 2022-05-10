@@ -325,3 +325,158 @@ This really cleans up our code.
 We have now built the major portion of our redux project, but we now need to add some UI to complete the interaction.
 
 ### index.html
+
+We want our code to render to a browser, so for now we can simply copy it all from index.js (and delete that file), create index.html, and then paste the code between the old-school script tags in the html file.
+
+    < script type="text/javascript > < / script >
+
+This of course renders only a blank page, but the console should be logging our state.
+
+You will now want to add some basic UI so that you can test the functionality of your redux app. Remember that we have the 'library style' code, and the 'app' code. We can leave the library code within our script tags, but we will want the DOM/view to render our app code.
+
+    <div class="todo-list">
+      <h1>Todo List</h1>
+      <input id="todo-input" type="text" placeholder="Enter a todo" />
+      <button id="todo-button">Add Todo</button>
+      <ul id="todo-list"></ul>
+    </div>
+
+Repeat the same for goals. Although not pretty, at least we have something rendered to screen.
+
+### Hooking up the UI and State
+
+First we need to add functions that are hooked up to our two buttons, one for Todo and one for Goals. We want to grab the value of what the user types into the input field and store it in a variable called 'name' (for example). Then we want to reset the input value to an empty string. Then we want to take the value we have stored in the 'name' variable and invoke the addTodoAction through a dispatch function. We will pass the action creator function three properties: name (which is the value of the user input), an id, and the completed status of 'false'.
+
+    function addTodo () {
+        const input = document.getElementById('todo-input');
+        const name = input.value;
+        input.value = '';
+
+        store.dispatch(addTodoAction({
+            name,
+            id: generateId(),
+            completed: false,
+        }));
+    }
+
+**NOTE** We can use a helper function to generate id's for us:
+
+    function generateId () {
+        return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36);
+    }
+
+We need to do the same for our goals (but we don't use the completed property). We then need to hook these up to our two separate buttons so that when they are clicked the addTodo and addGoal functions are invoked.
+
+    document.getElementById('todo-button').addEventListener('click', addTodo);
+    document.getElementById('goal-button').addEventListener('click', addGoal);
+
+And now the UI and state are linked up! If you head to the browser and type something into the todo input and click the button, you will notice in our console we receive 'the new state is' and a new array in our todos object.
+
+### Update UI
+
+We now have the ability to manipulate the state through interacting with the UI. Now we want to make it so that the browser displays the state in the UI. First we will create a function that renders the UI to the DOM, and pass it a todo argument. Then we need the function to create a brand new list node, as well as a text node which will just be the name of the todo. We will then grab the new node and append to it our text node as a child. Next we will grab our ul element and append onto it the new list node.
+
+    function addTodoToDOM (todo) {
+        const node = document.createElement('li');
+        const text = document.createTextNode(todo.name);
+        node.appendChild(text);
+
+        document.getElementById('todo-list').appendChild(node);
+    }
+
+Again, we want to do something similar with our goals.
+
+We can now remove the console.log of the new state within the store.subscribe function, and instead we can get the state and pass it to the DOM. You also _must_ reset the lists every time this function is run, however, since if you do not then you will get duplicate entries (we want to wipe the DOM each time, because we are relying on state to management what gets rendered).
+
+    store.subscribe(() => {
+        const { todos, goals } = store.getState();
+
+        document.getElementById('todo-list').innerHTML = '';
+        document.getElementById('goal-list').innerHTML = '';
+
+        todos.forEach(addTodoToDOM);
+        goals.forEach(addGoalToDOM);
+    });
+
+One last aspect we want to create is the ability to check off todos. We can do this by adding an event listener to the list items. We will add an event listener to the list items, and when the user clicks on the list item, we will toggle the completed status of the todo. In our addTodoToDOM function, we will add a style class to the list item depending on the completed status of the todo. We then want an event listener to the list items that will toggle the completed status of the todo.
+
+    function addTodoToDOM (todo) {
+        ...
+        node.style.textDecoration = todo.completed ? 'line-through' : 'none';
+        node.addEventListener('click', () => {
+            store.dispatch(toggleTodoAction(todo.id));
+        }
+        ...
+    }
+
+### Removing Items
+
+We basically have two tasks to create a remove button to get rid of an item on the todo list (or goals list). First, we can create a function that creates the button itself:
+
+    function createRemoveButton(onClick) {
+        const removeBtn = document.createElement("button");
+        removeBtn.innerText = "X";
+        removeBtn.addEventListener("click", onClick);
+        return removeBtn;
+      }
+
+And then we need to place it alongside the text node that we create when the user inputs a new todo item, and pass in the create button function so that a button is created along with the text list element:
+
+    function addTodoToDOM (todo) {
+
+        ...
+
+        const text = document.createTextNode(todo.name);
+
+        const removeBtn = createRemoveButton(() => {
+          store.dispatch(removeTodoAction(todo.id));
+        });
+
+        node.appendChild(text);
+        node.appendChild(removeBtn);
+
+        ...
+
+    }
+
+**NOTE** as you can see, the createRemoveButton 'contains' our dispatch action creator 'removeTodoAction', so that we can keep track of the state.
+
+We need to repeat this for our goal section.
+
+# Redux Library
+
+All of the walkthrough we did above was essentially using our own custom library that works like Redux, but it wasn't Redux. Redux is a library that has a store, actions, and reducers for us!
+
+## Adding in Redux
+
+In the head of our application, we can now import the library with a script:
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+
+Now we can delete the 'library' section of code we built, and also when we create our store instead of using our own custom library, we can use the Redux library. We can also delete our 'app' function (the function that was able to handle two separate state's that we wanted to manage) since Redux actually has the exact same functionality:
+
+    const store = Redux.createStore(
+        Redux.combineReducers({
+          todos,
+          goals,
+        })
+      );
+
+We've now seen exactly how Redux itself works by building our own imitation library. But of course, in a real project you will use the Redux library.
+
+**NOTE** combineReducers is a function that takes an object of reducers and returns a single reducer. Think of it as a root reducer.
+
+You can essentially end up with a number of further 'root'-esque reducers in much the same way that you would use components in React. This may then give you a real root reducer file that just looks like this:
+
+    import { combineReducers } from 'redux';
+    import booksReducer from './books_reducer';
+    import userReducer from './user_reducer';
+
+    const rootReducer = combineReducers({
+        books: booksReducer,
+        users: userReducer
+    });
+
+    export default rootReducer;
+
+# Redux Middleware
