@@ -810,3 +810,114 @@ Finally our app is working as expected with both html rendering at the top and R
 We don't want to hold the data locally, we want to move it to an external API
 
 ## External Data
+
+### Using a Remote API
+
+In the real world, you wouldn't want all your data just sitting on the front end. For one, it doesn't persist. For now, we can use a fake API script added to the head of our file:
+
+    <script src="https://tylermcginnis.com/goals-todos-api/index.js"></script>
+
+This fake API will allow us to make asynchronous calls and get hardcoded data from our 'server', as a way to test our app.
+
+To start, we can make a Promise call to the API to get the current state of our goals and todos. Promise.all will wait for all of the promises to resolve before moving on (so that the user doesn't need to wait a long time). Within our App component after setting our useState, we can use the following useEffect:
+
+    React.useEffect(() => {
+          Promise.all([
+            API.fetchTodos(),
+            API.fetchGoals().then(([todos, goals]) => {
+              props.store.dispatch(receiveTodosAction(todos, goals));
+            }),
+
+            store.subscribe(() => setValue((value) => value + 1)),
+          ]);
+        }, []);
+
+We can also make a new action creator that we can call receiveDataAction that will take in the data that we want to store in our store. We can then use this action creator in our useEffect:
+
+    function receiveDataAction(todos, goals) {
+        return {
+          type: "RECEIVE_DATA",
+          todos,
+          goals,
+        }
+      }
+
+This will require a new const called RECEIVE_DATA: const RECEIVE_DATA = "RECEIVE_DATA";
+
+Then we will want to insert this variable into our separate todos and goals reducers:
+
+    case RECEIVE_DATA:
+            return action.todos;
+
+### Loading States
+
+Since our app fetches the data but waits for about 2 seconds to do so, we have applied a poor UX to our app. To mitigate this a little we can use a loading state to tell the user that the app is loading.
+
+We will create a new reduce called loading:
+
+    function loading (state = true, action) {
+        switch (action.type) {
+          case RECEIVE_DATA:
+            return false;
+          default:
+            return state;
+        }
+      }
+
+Now we need to again let our store aware of this new loading reducer:
+
+    const store = Redux.createStore(
+        Redux.combineReducers({
+          todos,
+          goals,
+          loading,
+        }),
+        Redux.applyMiddleware(checker, logger)
+      );
+
+In our App component we also want to grab the loading state from the store:
+
+    const { todos, goals, loading } = store.getState();
+
+        if (loading === true) {
+          return <h3>Loading...</h3>;
+        }
+
+This now means that as the data is loading, we will display a loading message, thus providing a slightly improved user experience.
+
+### Optimistic Updates
+
+This is an invaluable technique in UX. It basically assumes that an action will occur and then, if for some reason the API returns an error, the error will show. But otherwise, the action will be completed and the state updated without the user thinking it has not been instant!
+
+First we will need to alter our Todos component so that the item actually gets deleted from the database (this takes a moment, so that's why we add the error alert if it fails, and if it doesn't fail we just remove the item from the list preemptively):
+
+    const removeItem = (todo) => {
+          props.store.dispatch(removeTodoAction(todo.id));
+          return API.deleteTodo(todo.id).catch(() => {
+            props.store.dispatch(addTodoAction(todo));
+            alert ("Error deleting todo. Try again.");
+          });
+          };
+        };
+
+This is an **incredibly import technique** in obtaining good UX as the user gains immediate feedback, while we still get our ability to update the API state.
+
+### Persisting Data
+
+We need new goals or todos to persist in our API. For that, we will need to alter the addItem reducer:
+
+        ... e.preventDefault();
+
+          return API.saveTodo(inputRef.current.value)
+            .then((todo) => {
+              props.store.dispatch(addTodoAction(todo));
+              inputRef.current.value = "";
+            })
+            .catch(() => {
+              alert("Something went wrong. Try again.");
+            });
+        };
+
+        const removeItem = (todo) => { ...
+
+## Thunk
