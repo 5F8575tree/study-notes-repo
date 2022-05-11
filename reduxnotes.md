@@ -610,4 +610,203 @@ This is truly invaluable middleware when developing web applications.
 
 # Redux with React
 
-It is not only React that can be linked up to Redux, you can also use Vue, Angular, or even plain old JavaScript. For the current purposes, however, we'll now look at how to use Redux with React.
+It is not only React that can be linked up to Redux, you can also use Vue, Angular, html, or even plain old JavaScript. For the current purposes, however, we'll now look at how to use Redux with React.
+
+## React as the UI
+
+Until now we have used React within html to render our UI. But instead, we want to use React as the UI. First, we will need to add scripts for react, react-dom, and babel to our index.html file:
+
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.17.6/babel.min.js"></script>
+
+For current purposes, we will first run both the html and the react files concurrently before moving over entirely to React. First we can divide our index.html file into two parts, and add a div that will hold our React component:
+
+    ...
+
+       <ul id="goal-list"></ul>
+    </div>
+
+    <hr />
+
+    <div id="app"></div>
+
+    <script type="text/javascript">
+
+    ...
+
+Below our current script in the body containing the Redux codes, we will begin to connect to react with a component:
+
+    <script type="text/babel">
+      const List = (props) => {
+        <ul>
+          <li>List</li>
+        </ul>;
+      };
+    </script>
+
+We also want to render a parent component of that list component (and do this twice, once for todos and once for goals):
+
+    const Todos = () => {
+        <div>
+          TODOS
+          <List />
+        </div>;
+      };
+
+Finally we can render both of these components within a parent component of App and render it with react-dom:
+
+    const App = () => {
+        <div>
+          <Todos />
+          <Goals />
+        </div>;
+      };
+
+    ReactDOM.render(<App />, document.getElementById("app"));
+
+So now we have converting a portion of our page from being rendered by the html to being rendered by React.
+
+## Dispatching - Important!!
+
+We now want to give our React 'App' component access to the original store that we created, and we can do this by passing it as a prop to the App component:
+
+    ReactDOM.render(<App store={store} />, document.getElementById("app"));
+
+**NOTE** Make sure to also pass props as a parameter in the App component itself, and down into the Todos component:
+
+    const App = (props) => {
+        <div>
+          <Todos store={props.store} />
+          <Goals />
+        </div>;
+      };
+
+Next we want to allow the App component to accept user input. We will want to use an input ref as a part of this process. We want to pass in props to allow the Todos component to access the store. We also want to set up our button to run an event listenered that we will build called 'addItem'. We want the event handler to save the name of the input/Todo, and then subsequently set it back to an empty string. Finally, we want to let the store know that the user has added a single Todo item, and invoke our action creator 'addTodoAction'. The action creator will take in a single object, with three properties.
+
+    const Todos = (props) => {
+        const inputRef = React.useRef();
+        const addItem = (event) => {
+          event.preventDefault();
+          const name = inputRef.current.value;
+          inputRef.current.value = "";
+
+          props.store.dispatch(
+            addTodoAction({
+              name,
+              id: generateId(),
+              completed: false,
+            })
+          );
+        };
+
+        <div>
+          <h1>Todos List</h1>
+          <input type="text" placeholder="Enter a Todo" ref={inputRef} />
+          <button onClick={addItem}>Add Todo</button>
+          <List />
+        </div>;
+      };
+
+For simplicity, this uses the ref hook, but you will want to check this [documentation](https://reactjs.org/docs/refs-and-the-dom.html) to see whether it is necessary in your own projects.
+
+Although as our current set up stands the html and the React sections of our app are both working from the same store, we now have a basic replication of our initial html app in React app style.
+
+### Force Load App
+
+We can leverage the useEffect hook in order to re-render our UI without the need to add items to the DOM, since this is what we are utilising React for.
+
+    const App = (props) => {
+        const [value, setValue] = React.useState(0);
+
+        React.useEffect(() => {
+          props.store.subscribe(() => {
+            setValue((value) => value + 1);
+          });
+        }, []);
+
+        const { todos, goals } = props.store.getState();
+
+        return (
+        <div>
+          <Todos todos={todos} store={props.store} />
+          <Goals goals={goals} store={props.store} />
+        </div>
+        );
+      };
+
+### Lists with React
+
+At present, our React app section renders nothing more than a static list item that says 'List', although it is set up to receive input and update the state. We can alter the static list item so that React renders the UI to reflect the state of the store.
+
+We can work on our List component first by giving it the props:
+
+    <List items={list.goals} />
+
+Then we can alter the list component to render the goals/todos. Remember to also make sure that each individual list item has a new key because we are mapping over items:
+
+    const List = (props) => {
+        <ul>
+          {props.items &&
+            props.items.map((item) => {
+              return (
+                <li key={item.id}>
+                  <span>{item.name}</span>
+                </li>
+              );
+            })}
+        </ul>;
+      };
+
+With our html rendered lists, we have the ability to strike a line through completed todos, and also a button to delete the todo. Now we can work on implementing that in our React app side.
+
+First, within our todo component we will create a removeItem function that will call our removeTodoAction action creator. We will then pass in the id of the todo that we want to remove:
+
+    const removeItem = (todo) => {
+          props.store.dispatch(removeTodoAction(todo.id));
+        }
+
+Then we can render a button next to our text and pass this removeItem function to it to run onClick:
+
+    <button onClick={() => props.remove(item)}>X</button>
+
+We also need to ensure our List component has access to these functions, so just as we added in the items props, we need to similarly pass in the removeItem function too:
+
+    <List remove={removeItem} items={list.todos} />
+
+### Toggle UI with React
+
+The last piece of functionality that remains in our html render but not our React render is the ability to toggle the UI on the todo list.
+
+Under our removeItem function in the todo component, let's add a toggleItem function that will call our toggleTodoAction action creator. We will then pass in the id of the todo that we want to toggle:
+
+    const toggleItem = (id) => {
+          props.store.dispatch(toggleTodoAction(id));
+        };
+
+Now again we just need to pass this new function to our list component:
+
+    <List toggle={toggleItem} remove={removeItem} items={list.todos} />
+
+Finally we will want to add some extra functionality to our span element in the List component, i.e. the ability onClick to style the text:
+
+    <span
+        style={{
+            textDecoration: item.completed ? "line-through" : "none",
+        }}
+            onClick={() => props.toggle && props.toggle(item.id)}
+        >
+            {item.name}
+    </span>
+
+This above onClick is asking first if toggle is available and, if yes, then toggle the item via it's id (since our toggle function takes an id as an argument). The style addition gives us the option of text decoration being either line-through or none, depending on whether the items state is complete or not.
+
+## Remove the html Rendering!
+
+Finally our app is working as expected with both html rendering at the top and React rendering at the bottom. Since we only want one app, and we want to use React, we can now get rid of all the html rendering and rely instead on just the React JS rendering.
+
+# Asynchronous Redux
+
+We don't want to hold the data locally, we want to move it to an external API
+
+## External Data
