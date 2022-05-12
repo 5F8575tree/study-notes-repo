@@ -921,3 +921,77 @@ We need new goals or todos to persist in our API. For that, we will need to alte
         const removeItem = (todo) => { ...
 
 ## Thunk
+
+Our app now works as we want it to, but there are some issues. We currently have our data-fetching logic mixed up with our UI updating logic. We want to clearly separate these two parts. It would be preferable to build an action creator that is responsible for fetching the data, and then simply call that action creator from our UI components.
+
+### Adding Thunk Library
+
+We can start by making a new action creator and call it 'handleDeleteTodo, but first let's alter our removeItem function within our components to make it far more readable:
+
+    const removeItem = (todo) => {
+          props.store.dispatch(handleDeleteTodo(todo));
+        };
+
+Now we can move all of the API logic into a new action creator called handleDeleteTodo:
+
+    function handleDeleteTodo(todo) {
+        return (dispatch) => {
+          dispatch(removeTodoAction(todo.id));
+
+          return API.deleteTodo(todo.id).catch(() => {
+            props.store.dispatch(addTodoAction(todo));
+            alert("An error occurred");
+          });
+        };
+      }
+
+There is a library called 'redux-thunk' that will allow us to use thunks without having to make custom thunks, you just need to add the following script to your head:
+
+    <script src="https://unpkg.com/redux-thunk@2.2.0/dist/redux-thunk.min.js"></script>
+
+And again, every time we add new middleware, we need to make certain that Redux is aware that we have created it:
+
+    Redux.applyMiddleware(ReduxThunk.default, checker, logger)
+
+**NOTE** The placement of the middleware as arguments in the Redux.applyMiddleware function is important. It is the order in which the middleware will be executed.
+
+Thunk middleware can then be used to delay an action dispatch, or to dispatch only if a certain condition is met (e.g., a request is resolved). This logic lives inside _action creators_ rather than inside _components_.
+
+If a web application requires interaction with a server, applying middleware such as thunk helps solve the issue of asynchronous data flow. Thunk middleware allows us to write action creators that return functions rather than objects.
+
+By calling our API in an action creator, we make the action creator responsible for fetching the data it needs to create the action. Since we move the data-fetching code to action creators, we build a cleaner separation between our UI logic and our data-fetching logic. As a result, thunks can then be used to delay an action dispatch, or to dispatch only if a certain condition is met (e.g., a request is resolved).
+
+### Thunkify Initial Data
+
+Once you have worked through and separated all the UI rendering functions/components from the API fetching logic by moving them to action creators, the app should still be working as expected. However, we want to do the same process for where our app initially gains data from the API. This is the useEffect call towards the top of the App component itself. Essentially, we want to remove the code block that starts with Promise, so that we are left with something like this:
+
+    React.useEffect(() => {
+          props.store.dispatch(handleInitialData());
+
+          store.subscribe(() => setValue((value) => value + 1));
+        }, []);
+
+Then, of course, we need to create that handleInitialData action creator:
+
+    function handleInitialData() {
+        return (dispatch) => {
+          Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
+            ([todos, goals]) => {
+              dispatch(receiveDataAction(todos, goals));
+            }
+          );
+        };
+      }
+
+We have now successfully separated our UI logic from our data-fetching logic.
+
+### Advanced Asynchronous Redux
+
+For small enough projects this process of thunking is absolutely fine, but if you get more advanced in your use of Redux and want to scale projects, you will want to consider some other options, potentially. Here are some further reading documentations that you can refer to:
+
+    - [Github for Redux Promise](https://github.com/redux-utilities/redux-promise)
+    - [Github for Redux Saga](https://github.com/redux-saga/redux-saga)
+    - [Calling an API via Redux Saga Stack Overflow Thread](https://stackoverflow.com/questions/38791974/asynchronous-api-calls-with-redux-saga)
+    - [Redux Promise versus Redux Saga Medium Article](https://medium.com/@shoshanarosenfield/redux-thunk-vs-redux-saga-93fe82878b2d)
+
+# React-Redux Bindings
