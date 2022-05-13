@@ -1140,4 +1140,114 @@ We can do this with currying (basically when the invocation is made, it invokes 
 
 Now within our App component we can remove the loading variable. Also, for our if statement we will need to add props.loading instead of previous where we just invoked the (now deleted) loading variable.
 
-After making the changes to ConnectedGoals and ConnectedTodos, we now need to actually build out our abstracted connect function itself.
+After making the changes to ConnectedGoals and ConnectedTodos, we now need to actually build out our abstracted connect function itself. It's quite an epic function:
+
+        function connect(mapStateToProps) {
+        return (Component) => {
+          const Receiver = (props) => {
+            const [value, setValue] = React.useState(0);
+
+            React.useEffect(() => {
+              let unmounted = false;
+              const { subscribe } = props.store;
+
+              const unsubscribe = subscribe(() => {
+                setValue((value) => value + 1);
+              });
+
+              return () => {
+                unsubscribe();
+                unmounted = true;
+              };
+            }, []);
+
+            const { dispatch, getState } = props.store;
+            const state = getState();
+            const stateNeeded = mapStateToProps(state);
+
+            return <Component {...stateNeeded} dispatch={dispatch} />;
+          };
+
+          const ConnectedComponent = () => {
+            return (
+              <Context.Consumer>
+                {(store) => <Receiver store={store} />}
+              </Context.Consumer>
+            );
+          };
+
+          return ConnectedComponent;
+        };
+      }
+
+Fortunately, you don't need to remember all these steps, since this is again such a common pattern that there is a React-Redux library that carries out the functionality, by adding this script to the head:
+
+  <script src="https://unpkg.com/react-redux@7.2.6/dist/react-redux.min.js"></script>
+
+This is the official recommended library for using React-Redux bindings.
+
+**NOTE** mapStateToProps is a function that lets connect() know how to map state into the component’s list of props. It is invoked with the store’s state and returns an object of props to pass to the component.
+
+We can delete all the above parts (Context, Provider, and connect function). We need to leave ConnectedApp, ConnectedTodos and ConnectedGoals. For each of these 'Connected' functions, we will make a slight change by adding in ReactRedux to provide the connect function:
+
+      const ConnectedApp = ReactRedux.connect((state) => ({
+        loading: state.loading,
+      }))(App);
+
+Then at the very bottom, since we no longer have our own Provider function, we can likewise draw on ReactRedux for the Provider:
+
+      ReactDOM.render(
+            <ReactRedux.Provider store={store}>
+              <ConnectedApp />
+            </ReactRedux.Provider>,
+            document.getElementById("app")
+          );
+
+#### Summary
+
+React often leverages Redux for more predictable state management via the react-redux bindings. These bindings give us an API that simplifies the most common interactions between React and Redux.
+
+Provider makes it possible for Redux to pass data from the store to any React components that need it. It uses React’s Context feature to make this work.
+
+connect() connects a React component to the Redux store. The mapStateToProps() function allows us to specify which state from the store you want passed to your React component, while the mapDispatchToProps() function allows us to bind dispatch to action creators before they ever hit the component.
+
+# Folder Structure
+
+Of course, you don't want all your code in one file outside of learning purposes. We can instead use create-react-app and divide our code in to a more useful file structure.
+
+    npx create-react-app todo-app
+
+If you are starting in a fresh directory, you will also need to reinstall the following libraries:
+
+    npm i goals-todo-api react-redux react-thunk redux
+
+You can build a source file structure like this:
+
+src
+├── actions # Constants, Action Creators, Asynchronous Action Creators.
+│ ├── todos.js
+│ ├── goals.js
+│ └── shared.js
+│
+└── reducers
+│ ├── todos.js
+│ ├── goals.js
+│ ├── loading.js
+│ └── index.js # We will use this to combine all three reducers via combining reducers from Redux
+│
+└── middleware
+│ ├── index.js # We will use this to combine all three middleware via combining middleware from Redux
+│ ├── logger.js
+│ └── checker.js
+│
+└── components
+│ ├── App.js
+│ ├── Todos.js
+│ ├── Goals.js
+│ └── List.js
+
+**RAILS-STYLE** We've organized the individual elements of our app with a "Rails-style" approach. That is, assets are grouped by "type" or "capability": any action will be found in the Actions folder, any reducer will be found in Reducers, and so on.
+
+**Under this directory structure, if we wanted to import all actions into a component, we can get them all in a single import!**
+
+# React Redux Project
