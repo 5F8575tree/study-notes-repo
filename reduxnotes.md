@@ -1251,3 +1251,16 @@ src
 **Under this directory structure, if we wanted to import all actions into a component, we can get them all in a single import!**
 
 # React Redux Project
+
+We will complete an entire project together through these steps:
+
+1. Project overview
+2. Views and Components
+3. Events
+4. The Store
+5. Actions
+6. Middleware
+7. Handling data
+8. Dashboard
+9. Handling Tweets
+10. React Router
