@@ -995,3 +995,149 @@ For small enough projects this process of thunking is absolutely fine, but if yo
     - [Redux Promise versus Redux Saga Medium Article](https://medium.com/@shoshanarosenfield/redux-thunk-vs-redux-saga-93fe82878b2d)
 
 # React-Redux Bindings
+
+React and Redux are not a monogamous pair - you can use Redux to handle state for any UI rendering framework, including Angular or Vue. What we have done so far is essentially use Redux to manage our store, and then pass our store down through each React component we build in order to allow for manipulation of the store.
+
+In short, the whole goal of binding Redux to React is to make three key aspects run as seemlessly as possible'
+
+1. Getting state
+2. Updating state
+3. Listening for changes
+
+Accessing the store is therefore very important for our components. For a small project, passing store down as props through components is not so bad, but this would be tedious and error prone in larger projects. In fact, having a store in the first place is to avoid having to pass props down through multiple components.
+
+## Context
+
+If you think of a situation where you are holding data towards the top of your component tree, you may have passed that data as props down through multiple child components to get to it's final destination component, even though the children that it passed through did not require it.
+
+**Context** allows us to pass props directly to the final destination component without needing to pass it through multiple child components that don't require it.
+
+To set it up, we first want to create a variable called 'context', and point that to the result of calling React.context:
+
+    const Context = React.createContext();
+
+The context variable will have two properties on it: a provider property and a consumer property.
+
+### Context.Provider
+
+For the component that you are rendering in App, you will want to wrap it in Context.provider (in much the same way that you would wrap in routes, etc.) For example:
+
+    const App () => {
+        return (
+            <Context.Provider value={valueName}>
+                <ParentComponent />
+            </Context.Provider>
+            );
+        )
+    }
+
+### Context.Consumer
+
+Now, for access to that prop, all we need to do is wrap the return value of our final destination component in Context.Consumer, and within that we pass in a function with the value that we want to consume as the argument. For example:
+
+    const GrandChild () => {
+        return (
+            <Context.Consumer>
+                {(valueName) => {
+                    return (
+                        <div>
+                            <h1>GrandChild</h1>
+                            <p>This is {valueName}</p>
+                        </div>
+                    );
+                }}
+            </Context.Consumer>
+        );
+    }
+
+#### Our Todo App
+
+In the app we have been building we have a slightly different nuance of the same problem. Rather than passing a value, such as 'name', all the way down to a deeply nested component, we are still using 'store' as props to be relied on by each component.
+
+Here we can create a custom Provider to show what it does. The Provider renders whatever it's children are, and passes down whatever values we want to make available to any child component, in this case, access to the store:
+
+    const Context = React.createContext();
+
+      const Provider = (props) => {
+        return (
+          <Context.Provider value={props.store}>
+            {props.children}
+          </Context.Provider>
+        );
+      };
+
+Now we need to remember to wrap the Provider component around our rendering of the App component (**Note** we no longer have the store being passed with the App component, but instead with the Provider component):
+
+        ...
+
+        ReactDOM.render(
+            <Provider store={store}>
+            <App />
+            </Provider>,
+            document.getElementById("app")
+        );
+        </script>
+      </body>
+    </html>
+
+Now, any time we want to grab data from the store (get, update, listen for changes) / dispatch, we can access the store through the Provider component.
+
+## Container Component
+
+Also known as a 'Connected Component', because it is connected to the store. The distinction is that it is responsible for interacting with everything that is in the store, whereas other components are referred to as 'Presentational Componenents', since they are responsible for rendering UI.
+
+In other words, the connected component will go to the store and grab the data that it needs and then passes the data as props to the presentational components to be rendered. It is a distinction between a 'worker' and a 'looker'.
+
+This is a major benefit for **separation of concerns**.
+
+Here is an example for connecting our App to the store:
+
+    const ConnectedApp = () => {
+        <Context.Consumer>
+          {(store) => {
+            return <App store={store} />;
+          }}
+        </Context.Consumer>;
+      };
+
+For our Goals component, the alteration would look like this:
+
+    const ConnectedGoals = () => {
+        return (
+          <Context.Consumer>
+            {(store) => {
+              const { goals } = store.getState();
+
+              return <Goals goals={goals} dispatch={store.dispatch} />;
+            }}
+          </Context.Consumer>
+        );
+      };
+
+And we can now remove 'store' and turn the dispatches into props.dispatch, as well as remove the goals property from the App component. Finally, we no longer need to render Goals with props in the App component, but can instead render ConnectedGoals:
+
+    return (
+          <div>
+            <Todos todos={todos} store={props.store} />
+            <ConnectedGoals />
+          </div>
+        );
+      };
+
+You can now do the same for ConnectedTodos.
+
+## Connecting Components
+
+The above steps have allowed us to use a provider component that is responsible for the setting the store on to the context. In practise, any child component that requires the store can just grab it by using our Context.Consumer tags. However, this means you still need to grab Context.Consumer everytime you want to access the store. We can improve this by instead building out a connecting component (much like we built out a provider component).
+
+Our Connect Component with need to do two things in our case: render a component, and secondly, pass the data needed from the store.
+
+We can do this with currying (basically when the invocation is made, it invokes a further function with a second set of arguments). In our case, we need to pass our App component, and the data the connect function needs to invoke is the loading props from the store:
+
+    const ConnectedApp = connect(((state) => {
+        loading: state.loading
+      }))(App);
+
+Now within our App component we can remove the loading variable. Also, for our if statement we will need to add props.loading instead of previous where we just invoked the (now deleted) loading variable.
+
+After making the changes to ConnectedGoals and ConnectedTodos, we now need to actually build out our abstracted connect function itself.
