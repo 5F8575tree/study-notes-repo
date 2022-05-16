@@ -1264,3 +1264,5 @@ We will complete an entire project together through these steps:
 8. Dashboard
 9. Handling Tweets
 10. React Router
+
+# Jest
