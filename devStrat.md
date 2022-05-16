@@ -4,7 +4,32 @@
 
 We will complete an entire project together through these steps:
 
-
+- [Development Strategy for React-Redux App](#development-strategy-for-react-redux-app)
+- [Read this before embarking on any Redux project!! [createStore deprecation(https://redux.js.org/introduction/why-rtk-is-redux-today#what-does-redux-toolkit-do)](#read-this-before-embarking-on-any-redux-project-createstore-deprecationhttpsreduxjsorgintroductionwhy-rtk-is-redux-todaywhat-does-redux-toolkit-do)
+- [1. Project Planning](#1-project-planning)
+  - [Steps for Planning](#steps-for-planning)
+  - [1. STEP ONE: Identify what each View should look like](#1-step-one-identify-what-each-view-should-look-like)
+  - [2. STEP TWO: Break each view into a hierarchy of components](#2-step-two-break-each-view-into-a-hierarchy-of-components)
+    - [Total Components](#total-components)
+  - [3. STEP THREE: Determine what events happen in the app](#3-step-three-determine-what-events-happen-in-the-app)
+  - [4. STEP FOUR: Determine what data lives in the store](#4-step-four-determine-what-data-lives-in-the-store)
+- [2. Begin Building Code - Setting our 'Framework'](#2-begin-building-code---setting-our-framework)
+- [1. STEP ONE: Actions](#1-step-one-actions)
+- [2. STEP TWO: Reducers](#2-step-two-reducers)
+- [3. STEP THREE: Create the Store](#3-step-three-create-the-store)
+- [4. STEP THREE: Set up the App's Middleware Functions](#4-step-three-set-up-the-apps-middleware-functions)
+- [3. Writing the App](#3-writing-the-app)
+- [1. STEP ONE: Initializing the App's Data](#1-step-one-initializing-the-apps-data)
+- [2. STEP TWO: Start Building the Dashboard View](#2-step-two-start-building-the-dashboard-view)
+- [3. STEP THREE: Start Building the Tweet View](#3-step-three-start-building-the-tweet-view)
+- [4. STEP FOUR: Build out the UI for the Individual Tweets](#4-step-four-build-out-the-ui-for-the-individual-tweets)
+- [5. STEP FIVE: Handle the Loading Lag](#5-step-five-handle-the-loading-lag)
+- [6. STEP SIX: Like Tweet Functionality](#6-step-six-like-tweet-functionality)
+- [7. STEP SEVEN: Writing a Tweet](#7-step-seven-writing-a-tweet)
+- [8. STEP EIGHT: Build out the Tweet Page](#8-step-eight-build-out-the-tweet-page)
+- [9. STEP NINE: Build out the UI for Tweet Page](#9-step-nine-build-out-the-ui-for-tweet-page)
+- [4. Apply React Router](#4-apply-react-router)
+- [Test the Completed App](#test-the-completed-app)
 
 # 1. Project Planning
 
