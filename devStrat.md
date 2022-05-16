@@ -1,17 +1,10 @@
 # Development Strategy for React-Redux App
 
+# Read this before embarking on any Redux project!! [createStore deprecation(https://redux.js.org/introduction/why-rtk-is-redux-today#what-does-redux-toolkit-do)
+
 We will complete an entire project together through these steps:
 
-- Project Planning
-- Views and Components
-- Events
-- The Store
-- Actions
-- Middleware
-- Handling data
-- Dashboard
-- Handling Tweets
-- React Router
+
 
 # 1. Project Planning
 
