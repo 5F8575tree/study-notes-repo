@@ -1266,3 +1266,41 @@ We will complete an entire project together through these steps:
 10. React Router
 
 # Jest
+
+Jest was developed by Facebook(Meta). You can use it to test code in React, TypeScript, Babel, Node, Vue and Angular, among others.
+
+Alternatives: Mocha, Jasmine.
+
+This is the basic architecture of Jest:
+
+![Jest Architecture Example](images/jest-architecture.png)
+
+Installation:
+
+    npm i -D jest
+
+Then update your package.json to include `scripts.test: jest`
+
+To run a test:
+
+      npm run test
+
+Imagine a basic function in a file called _multipy.js_ that muliples two numbers:
+
+    function multiply(a, b) {
+      return a * b;
+    }
+
+    module.exports = multiply;
+
+Our test file will be called _multipy.test.js_ and will look like this:
+
+    var multiply = require('./multipy');
+
+    describe('multiply', () => {
+        it('will return the product of both numbers passed', () => {
+            expect(multiply(2, 3)).toEqual(6);
+        });
+    })
+
+## Jest Matchers
