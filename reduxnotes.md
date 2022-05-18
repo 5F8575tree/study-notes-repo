@@ -1304,3 +1304,83 @@ Our test file will be called _multipy.test.js_ and will look like this:
     })
 
 ## Jest Matchers
+
+Jest matchers are used to compare two values: expected, and actual.
+
+### expect() Matcher
+
+Allows you to check the value passed to it against a certain condition.
+
+#### toEqual()
+
+Verifies that the value of an object is equal to what you _expect()_
+
+    expect(multiply(2, 3)).toEqual(6);
+
+Returns true to pass the test.
+
+#### toBeLessThan()
+
+Expected number will be smaller than the actual number.
+
+    expect(2).toBeLessThan(3);
+
+#### toBeLessThanOrEqual()
+
+    expect(2).toBeLessThanOrEqual(2);
+
+#### toBeGreaterThanOrEqual()
+
+    expect(3).toBeGreaterThanOrEqual(2);
+
+#### toBeGreaterThan()
+
+    expect(3).toBeGreaterThan(2);
+
+### not() Matcher
+
+Useful if you have updated a number and you want to test that is no longer matches the original value.
+
+    expect(multiply(2, 3)).not.toEqual(5);
+
+    expect(5).not.toBeLessThan(1);
+
+Here is a list of [Jest's expect() Matchers.](https://jestjs.io/docs/expect)
+
+### String Matchers
+
+#### toMatch()
+
+    expect('Hello World').toMatch(/Hello/);
+
+Return true is the regex substring /Hello/ is found in the string.
+
+#### toContain()
+
+Verify if an array contains a specific object.
+
+    expect([1, 2, 3, 4]).toContain(3);
+
+    expect(["cat", "dog", "bird"]).toContain("dog");
+
+Both return true and pass the test.
+
+### Null Matcher
+
+Returns true if a value is null.
+
+    let test = null;
+
+    expect(test).toBeNull();
+
+### Exception Matcher
+
+#### toThrow()
+
+Verify that the function we are passing to it throws an exception.
+
+    function throwAnError(text) {
+        throw new Error('Error: ' + text);
+    }
+
+    expect(throwAnError('myError')).toThrow();
