@@ -1384,3 +1384,226 @@ Verify that the function we are passing to it throws an exception.
     }
 
     expect(throwAnError('myError')).toThrow();
+
+## Creating a Test File
+
+We have a function called filterArray. The function expects an array of numbers to be passed to it. If the array is null, the function returns null. If not, the function maps over the array and returns all numbers, except where a number is higher than 100, in which case it returns that number as 100.
+
+    function filterArray(numbers) {
+        if (numbers  === null) {
+            return null;
+        }
+        return numbers?.map(n => n > 100 ? 100 : n);
+    }
+
+    module.exports = filterArray;
+
+We need to test for three features:
+
+1. Null is returned if the array is null.
+2. If an array of 4 numbers is passed, the function returns an array of 4 numbers (and match the numbers).
+3. If a number bigger than 100 is passed, it is altered to 100.
+
+Here is a solution to run three tests on our function:
+
+    var filterArray = require('./filterArray');
+
+    describe('filterArray', () => {
+        it('will return null if null is passed', () => {
+            var results = filterArray(null);
+            expect(results).toBeNull();
+        });
+
+        it('will return all numbers lower than 100', () => {
+            var mockArray = [1, 2, 3, 4];
+            var results = filterArray(mockArray);
+            expect(results.length).toEqual(mockArray.length);
+            expect(results[0]).toEqual(mockArray[0]);
+            expect(results[1]).toEqual(mockArray[1]);
+            expect(results[2]).toEqual(mockArray[2]);
+            expect(results[3]).toEqual(mockArray[3]);
+        });
+
+        it('will not return any numbers greater than 100.', () => {
+            var mockArray = [50, 75, 100, 125];
+            var results = filterArray(mockArray);
+            expect(results).not.toContain(125);
+        });
+    });
+
+**NOTE**: Our function works correctly where not.toContain(125) returns true, since the function is intended to change 125 to 100.
+
+## Asynchronous Jest
+
+Asynchronous functions depend on an event that is outside of our code. Most often, this is for performing CRUD operations with server-side code, and awaiting a response.
+
+When testing asynchronous functions, we need to let Jest know that we are awaiting a response. We can do this by using async/await within our test. For example, if we have the following function to test (_note_ we have added a 2 second timeout to simulate an API call):
+
+    // isUtensilAvailable.js
+
+    var utensils = ['fork', 'knife', 'spoon'];
+
+    function isUtensilAvailable(utensil){
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+            utensils.includes(utensil)
+                ? resolve(true)
+                : reject('No utensils found.')
+            }, 2000);
+        });
+    }
+
+    module.exports = isUtensilAvailable;
+
+We can simply add async and await at the correct places in our test code. I.e. adding async before the function, and await after the function and before the expect() statement:
+
+    // isUtensilAvailable.test.js
+
+    var isUtensilAvailable = require('./isUtensilAvailable');
+
+    describe('isUtensilAvailable', () => {
+        it('will return true if the utensil is found', **async**() => {
+            var utensil = 'fork';
+            var result = **await** isUtensilAvailable(utensil);
+            expect(result).toEqual(true);
+        });
+
+        it('will return an error if the utensil is not found', **async**() => {
+            var invalidUtensil = 'tree';
+            **await** expect(isUtensilAvailable(invalidUtensil)).rejects.toEqual('No utensils found.');
+        });
+    })
+
+There are two tests here, one that checks the code when the utensil is found, and one that checks the code when the utensil is not found.
+
+## React Testing Library
+
+A JavaScript testing utility created specifically for rendering and testing React Components. You use it in conjunction with Jest to write tests for React components.
+
+The website for [React-Testing-Library](https://testing-library.com/) is really useful.
+
+    npm install --save-dev @testing-library/react @testing-library/jest-dom
+
+After installation, an App.test.js file is automatically built and added to you files.
+
+screen.debug() can be used to test the rendering of the App component and will print in the terminal the HTML output of the component. In this case the test passes automatically, of course, since we have yet to enter any testing.
+
+## Snapshot Testing
+
+A snapshot test allows you to verify that a component renders the way you expected. The first time you run the test, a **snapshot** file is created. Then on subsequent tests you can compare the current output to the snapshot file - is the new snapshot matches the first snapshot, the test passes. Otherwise, the test fails.
+
+To run a snapshot test, you simply need to run the test to expect:
+
+    expect(component).toMatchSnapshot();
+
+Snapshot tests are very useful for testing components that you do not expect to change frequently. For example, if you made a change in the code that is not intended to be cosmetic, i.e. you expect the UI to remain the same, a snapshot test can be of great use.
+
+There are two ways to update a snapshot if you want to actually change the UI. You can either delete the original snapshot file, causing the test to run as though it is the first time. Or, when the test fails, you have the option of typing 'u' in the console to update the snapshot file.
+
+## React DOM Testing
+
+### Querying Elements
+
+There are four major query methods that we will look at:
+
+1. getBy
+2. queryBy
+3. getAllBy
+4. queryAllBy
+
+When we know we have a particular element in the DOM, we can use the getBy test, in which if there is no such element found, an error is returned and, likewise, if _more than one_ such element is found we also get an error. In other words, getBy seeks just one element in the DOM that matches the test parameter.
+
+queryBy can be useful for edge cases where we know we want an element to exist in certain cases, but not in other cases. If no matches are found, null is returned, allowing the test to continue. An error is only thrown if multiple matches are found.
+
+Both getAllBy and queryAllBy are similar, but instead search for _all_ such elements in the DOM.
+
+#### When to get and when to query?
+
+As a rule-of-thumb, use get when you want your test to verify if an **element is present**.
+
+Use query when you want to search and verify that an element is **not present**.
+
+#### Selecting Elements: what _get_ or _query_ by?
+
+The two major searches are for **text/regex** and **TestId**.
+
+For example, if the follow is used, the test will run to try and retrieve one element that contains the text 'Hello':
+
+    getByText(/Hello/);
+
+For multiple elements:
+
+    getAllByText('Column');
+
+For TestId, we can search for a specific HTML tag. For example:
+
+    getByTestId('submit-button');
+
+Of course, you need the element to contain the data-testid="submit-button" attribute.
+
+Bringing all these elements together to test an App component, we can produce a text like this:
+
+    import { render } from '@testing-library/react';
+    import * as React from 'react';
+    import App from './App';
+
+    describe('App', () => {
+        it('will have all expected fields', () => {
+            var component = render(<App />);
+
+            var labels = component.getAllByText(/name/)
+            expect(labels.length).toEqual(2);
+
+            var firstNameInput = component.getByTestId('first-name-input')
+            var lastNameInput = component.getByTestId('last-name-input')
+            expect(firstNameInput).toBeInTheDocument();
+            expect(lastNameInput).toBeInTheDocument();
+
+            var submitButton = component.getByText('Submit')
+            expect(submitButton).toBeInTheDocument();
+        });
+    })
+
+### Firing Events
+
+Firing events allow your Jest test to simulate an event occurring on the DOM.
+
+fireEvent.click similates a click. fireEvent.change similates a change. fireEvent.keyDown simulates a key press, and so on.
+
+    import * as React from 'react';
+    import { render, fireEvent } from '@testing-library/react';
+    import { NameForm } from './App';
+
+    describe('NameForm', () => {
+        it('will display an error if the name is not provided.', () => {
+            var component = render(<NameForm />);
+
+            var submitButton = component.getByTestId('submit-button');
+            fireEvent.click(submitButton);
+            expect(component.getByTestId('error-header')).toBeInTheDocument();
+            expect(component.queryByTestId('success-header')).not.toBeInTheDocument();
+        });
+
+        it('will display a success message if the name is provided.', () => {
+            var component = render(<NameForm />);
+
+            var input = component.getByTestId('name-input');
+            fireEvent.change(input, { target: { value: 'Mike' } });
+            var submitButton = component.getByTestId('submit-button');
+            fireEvent.click(submitButton);
+            expect(component.getByTestId('success-header')).toBeInTheDocument();
+            expect(component.queryByTestId('error-header')).not.toBeInTheDocument();
+        });
+    });
+
+# Test-Driven Development
+
+The concept of writing tests while writing your software is known as "TDD", and is often very popular among tech companies.
+
+Book Recommendations:
+
+**1. The Pragmatic Programmer - David Thomas and Andrew Hunt**
+
+- This is essential reading for any programmer.
+
+**2. Clean Code: A Handbook of Agile Software Craftmanship - Robert Martin**
